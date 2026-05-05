@@ -89,11 +89,13 @@
                 <div class="bio-text">
                     <h3>Liber Abaci ve Modern Matematiğin Doğuşu</h3>
                     <p>1202 yılında Pisa'ya dönen Fibonacci, bu sistemi detaylandırdığı başyapıtı <strong>Liber Abaci</strong>'yi yayımladı. Sıfır (0) rakamının basamak değeri olarak kullanılması, Avrupa'da modern matematik ve bilgisayar algoritmalarının temellerini attı.</p>
-                    <p>Ünlü dizi ise bu kitapta yer alan "Tavşan Üreme Problemi" ile ortaya atıldı. <em>"Her ay yeni bir çift doğuran tavşanların 1 yıl sonundaki sayısı ne olur?"</em> sorusu, Altın Oran'ın formülünü matematik literatürüne kazandırdı.</p>
+                    <p>Ünlü dizi ise bu kitapta yer alan "Tavşan Üreme Problemi" ile ortaya atıldı. <em>"Her ay yeni bir çift doğuran tavşanların 1 yıl sonundaki sayısı ne olur?"</em> sorusu, matematik literatürüne efsanevi bir diziyi kazandırdı.</p>
                     
                     <div class="formula-box">
                         <strong class="formula-title">Fibonacci Dizisi Genel Formülü:</strong>
-                        <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/17b9605c317ffae410fc0c2794eb0be4a7d6e469" alt="Fn = Fn-1 + Fn-2" class="math-img">
+                        <div class="elegant-formula">
+                            <span class="var">F<sub>n</sub></span> = <span class="var">F<sub>n-1</sub></span> + <span class="var">F<sub>n-2</sub></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,8 +112,15 @@
                     <p>Fibonacci dizisindeki ardışık iki sayının oranı, sayılar büyüdükçe kusursuz bir şekilde bu gizemli sabite yakınsar: 34/21 = 1.619, 55/34 = 1.617, 89/55 = 1.618...</p>
                     
                     <div class="formula-box">
-                        <strong class="formula-title">Altın Oran (Phi) Formülü:</strong>
-                        <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5f33f0174ec57db5c614b1ce3b9af4fcddc06124" alt="Phi = (1+sqrt(5))/2" class="math-img" style="max-height: 40px;">
+                        <strong class="formula-title">Altın Oran (Phi) Değeri:</strong>
+                        <div class="elegant-formula fraction-formula">
+                            <span class="var">&Phi;</span> = 
+                            <div class="fraction">
+                                <span class="numerator">1 + &radic;5</span>
+                                <span class="denominator">2</span>
+                            </div>
+                            &nbsp;&approx; 1.618033...
+                        </div>
                     </div>
                 </div>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Da_Vinci_Vitruve_Luc_Viatour.jpg" alt="Vitruvius Adamı" class="bio-img">
@@ -316,13 +325,16 @@ public static int fibonacciArama(int[] dizi, int arananDeger) {
             </div>
         </div>
 
-        <!-- Basitleştirilmiş Algoritma Karşılaştırması -->
+        <!-- 3 ALGORİTMALI KARŞILAŞTIRMA (Linear vs Binary vs Fibonacci) -->
         <div class="content-box wide-box reveal" style="margin-top: 2.5rem;">
             <div class="feature-header">
                 <span class="feature-badge">📊 Performans Analizi</span>
                 <h3>Arama Algoritmalarının Hız Karşılaştırması</h3>
-                <p><strong>Linear Search (Doğrusal Arama):</strong> Sayıları baştan sona tek tek kontrol eder. Dizi 1000 elemanlıysa, 1000 adım sürebilir (Çok Yavaş).<br>
-                <strong>Fibonacci Search:</strong> Diziyi Fibonacci oranlarına göre atlayarak böler. 1000 elemanlı dizide sayıyı en fazla 10-15 adımda bulur (Çok Hızlı).</p>
+                <p>
+                    <strong>1. Linear Search (Doğrusal Arama):</strong> Sayıları baştan sona tek tek kontrol eder. 1000 elemanlı dizide 1000 adım sürebilir. Çok yavaştır <em>O(n)</em>.<br>
+                    <strong>2. Binary Search (İkili Arama):</strong> Diziyi sürekli tam ortadan <strong>ikiye böler (/)</strong>. En az adımı atar ancak işlemciyi yoran bölme işlemi kullanır <em>O(log₂ n)</em>.<br>
+                    <strong>3. Fibonacci Search:</strong> Diziyi Altın Oran'a göre böler. Sadece <strong>toplama (+) ve çıkarma (-)</strong> yaptığı için İkili Arama'ya göre birkaç adım fazla atsa da, donanım ve CPU seviyesinde çok daha performanslı çalışır <em>O(log_φ n)</em>.
+                </p>
             </div>
             <div class="complexity-section">
                 <div class="complexity-controls" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap;">
@@ -331,8 +343,9 @@ public static int fibonacciArama(int[] dizi, int arananDeger) {
                         <input type="range" id="complexN" min="10" max="1000" step="10" value="100" oninput="updateComplexity(this.value)" style="width: 100%; max-width: 400px; display: block; margin-top: 10px;">
                     </div>
                     <div class="complexity-legend" style="margin-top: 0;">
-                        <span><span class="clegend" style="background:#ef4444"></span> Doğrusal Arama (Çok yavaş)</span>
-                        <span><span class="clegend" style="background:#10b981"></span> Fibonacci Arama (Çok hızlı)</span>
+                        <span><span class="clegend" style="background:#ef4444"></span> Doğrusal (Çok yavaş)</span>
+                        <span><span class="clegend" style="background:#f59e0b"></span> İkili - Binary (Az adım, Bölme işlemi)</span>
+                        <span><span class="clegend" style="background:#10b981"></span> Fibonacci (Optimum CPU)</span>
                     </div>
                 </div>
                 <canvas id="complexityChart" width="700" height="250" style="max-width:100%; height:auto; background: var(--bg-secondary); margin-top: 20px;"></canvas>
@@ -413,14 +426,15 @@ public class PascalUcgeni {
 
             <span class="code-comment">// 4. Satırdaki sayıları hesaplayıp yan yana yazdırıyoruz</span>
             for (int j = 0; j <= i; j++) {
-                <span class="code-comment">// %4d, sayının 4 karakterlik bir alan kaplamasını sağlar</span>
+                <span class="code-comment">// %4d, sayının 4 karakterlik alan kaplamasını sağlar</span>
                 System.out.printf("%4d", deger);
 
-                <span class="code-comment">// Kombinasyon Mantığı: Yeni Değer = Eski Değer * (Satır - Sütun) / (Sütun + 1)</span>
+                <span class="code-comment">// Kombinasyon Mantığı ile Sonraki Sayıyı Bulma:</span>
+                <span class="code-comment">// Yeni Değer = Eski Değer * (Satır - Sütun) / (Sütun + 1)</span>
                 deger = deger * (i - j) / (j + 1);
             }
 
-            <span class="code-comment">// 5. Bir satır tamamen bittikten sonra alt satıra (Enter) geçiyoruz</span>
+            <span class="code-comment">// 5. Bir satır tamamen bittikten sonra alt satıra geçer</span>
             System.out.println();
         }
     }
@@ -434,7 +448,7 @@ public class PascalUcgeni {
     <!-- DENEYLER BÖLÜMÜ -->
     <section id="deneyler">
         <h2 class="reveal">5 İnteraktif Algoritma Deneyi</h2>
-        <p class="section-desc reveal">Oynamak ve algoritmaların detaylı mantığını okumak istediğiniz deneyin üzerine tıklayın. (Sözel mantık ve akış algoritmaları eklenmiştir).</p>
+        <p class="section-desc reveal">Oynamak ve algoritmaların detaylı mantığını okumak istediğiniz deneyin üzerine tıklayın.</p>
         
         <div class="experiments-accordion-container reveal">
             

@@ -720,7 +720,7 @@ function stopMusic() {
     if (audioCtx) { audioCtx.close(); audioCtx = null; }
 }
 
-// KARMAŞIKLIK GRAFİĞİ: Linear vs Fibonacci Search
+// KARMAŞIKLIK GRAFİĞİ: Linear vs Binary vs Fibonacci Search
 function updateComplexity(val) {
     document.getElementById("complexNLabel").textContent = val;
     drawComplexityChart(parseInt(val));
@@ -740,13 +740,15 @@ function drawComplexityChart(N) {
     const cH = H - pad.top - pad.bottom;
     
     let linearData = [];
+    let binaryData = [];
     let fiboData = [];
     let steps = 20; 
     
     for(let i=1; i<=steps; i++) {
         let currentN = (N / steps) * i;
         linearData.push(currentN); 
-        fiboData.push(Math.log2(currentN + 1) * 1.5); 
+        binaryData.push(Math.log2(currentN + 1)); 
+        fiboData.push(Math.log(currentN + 1) / Math.log(1.618)); 
     }
 
     const maxVal = N;
@@ -779,20 +781,26 @@ function drawComplexityChart(N) {
     }
 
     drawLine(linearData, "#ef4444"); 
+    drawLine(binaryData, "#f59e0b");
     drawLine(fiboData, "#10b981"); 
 
     const linearMax = Math.round(N);
-    const fiboMax = Math.round(Math.log2(N + 1) * 1.5); 
+    const binaryMax = Math.round(Math.log2(N + 1));
+    const fiboMax = Math.round(Math.log(N + 1) / Math.log(1.618)); 
 
     const tableEl = document.getElementById("complexityTable");
     if (tableEl) {
         tableEl.innerHTML = `
             <div class="comp-cell">
-                <div class="comp-name" style="color:#ef4444">Doğrusal Arama (Adım)</div>
+                <div class="comp-name" style="color:#ef4444">Doğrusal (Adım)</div>
                 <div class="comp-val">${linearMax.toLocaleString()}</div>
             </div>
             <div class="comp-cell">
-                <div class="comp-name" style="color:#10b981">Fibonacci Arama (Adım)</div>
+                <div class="comp-name" style="color:#f59e0b">İkili - Binary (Adım)</div>
+                <div class="comp-val">${binaryMax}</div>
+            </div>
+            <div class="comp-cell">
+                <div class="comp-name" style="color:#10b981">Fibonacci (Adım)</div>
                 <div class="comp-val">${fiboMax}</div>
             </div>
         `;
