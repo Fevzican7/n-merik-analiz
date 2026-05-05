@@ -55,7 +55,7 @@ if (themeBtn) {
         document.body.classList.toggle("dark-theme");
         localStorage.setItem("theme", document.body.classList.contains("dark-theme") ? "dark" : "light");
         if(document.getElementById("spiralRange")) {
-            drawSpiral(parseInt(document.getElementById("spiralRange").value));
+            drawSpiral(parseInt(document.getElementById("spiralRange").value), spiralProgress);
         }
         if(document.getElementById("complexN")) {
             drawComplexityChart(parseInt(document.getElementById("complexN").value));
@@ -72,12 +72,6 @@ function revealElement() {
 }
 window.addEventListener("scroll", revealElement);
 revealElement();
-
-// Kod Göster/Gizle Butonu
-function toggleCode(id) {
-    let el = document.getElementById(id);
-    if(el) el.style.display = el.style.display === "block" ? "none" : "block";
-}
 
 // Akordeon Deneyler
 function toggleAcc(element) {
@@ -165,49 +159,9 @@ function appendArrayBlock(label, value, container, delay, colorMode, primeMode, 
 }
 
 /* ========================================================
-   YENİ: PASCAL ÜÇGENİ JENERATÖRÜ
+   3. GÜZELLEŞTİRİLMİŞ FIBONACCI SEARCH SİMÜLATÖRÜ
 ======================================================== */
-function runPascalGenerator() {
-    let inputEl = document.getElementById("pascalInput");
-    let resultBox = document.getElementById("pascalResult");
-    if(!inputEl || !resultBox) return;
-
-    let n = parseInt(inputEl.value);
-    if(isNaN(n) || n < 1 || n > 15) {
-        resultBox.innerHTML = "<span style='color:#ef4444; width:100%; text-align:center;'>Hata: Lütfen 1 ile 15 arasında bir değer giriniz.</span>";
-        return;
-    }
-
-    resultBox.innerHTML = "";
-    let delay = 0;
-    
-    for(let i = 0; i < n; i++) {
-        let rowDiv = document.createElement("div");
-        rowDiv.className = "pascal-row";
-        let val = 1;
-        
-        for(let j = 0; j <= i; j++) {
-            let block = document.createElement("div");
-            block.className = "pascal-block";
-            // Kenarları farklı renk yapalım (1'ler)
-            if(j === 0 || j === i) block.classList.add("edge");
-            
-            block.innerText = val;
-            block.style.animationDelay = `${delay}ms`;
-            rowDiv.appendChild(block);
-            
-            // Kombinasyon Formülü
-            val = val * (i - j) / (j + 1);
-            delay += 30; // Animasyon hızı
-        }
-        resultBox.appendChild(rowDiv);
-    }
-}
-
-/* ========================================================
-   3. FİBONACCİ SEARCH SİMÜLATÖRÜ
-======================================================== */
-const searchArray = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
+const searchArray = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91, 105, 124, 150];
 
 function renderSearchArray() {
     const container = document.getElementById("fsArray");
@@ -241,7 +195,7 @@ async function runSearchTest() {
     resultBox.innerText = "-";
 
     const log = (msg) => { 
-        logBox.innerHTML += `<div>${msg}</div>`; 
+        logBox.innerHTML += `<div style="margin-bottom:4px; padding-bottom:4px; border-bottom:1px solid rgba(150,150,150,0.1);">${msg}</div>`; 
         logBox.scrollTop = logBox.scrollHeight; 
     };
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -252,22 +206,24 @@ async function runSearchTest() {
     let fb2 = 0, fb1 = 1, fbM = 1;
     
     while(fbM < n) { fb2 = fb1; fb1 = fbM; fbM = fb2 + fb1; }
-    log(`[BİLGİ] Sınır bulundu: F(m) = ${fbM}`);
+    log(`[BİLGİ] Diziyi bölecek en uygun Fibonacci sayısı: F(m) = <strong>${fbM}</strong>`);
 
     let offset = -1;
     let found = false;
 
     while(fbM > 1) {
         let i = Math.min(offset + fb2, n - 1);
-        log(`[KONTROL] İndeks i=${i} (Değer: ${searchArray[i]}) inceleniyor...`);
+        log(`[KONTROL] İndeks i=<strong>${i}</strong> (Değer: <strong style="color:var(--primary)">${searchArray[i]}</strong>) inceleniyor...`);
         
         document.querySelectorAll(".fs-box").forEach(b => b.classList.remove("active"));
         let activeBox = document.getElementById("fsBox-" + i);
         if(activeBox) activeBox.classList.add("active");
-        await sleep(800);
+        
+        // Kullanıcının görebilmesi için biraz daha uzun bekleme
+        await sleep(1200);
 
         if(searchArray[i] < x) {
-            log(`[>] ${searchArray[i]} < ${x}. Sol taraf eleniyor. F değerleri bir adım geri alınıyor.`);
+            log(`[>] <span style="color:#ef4444">${searchArray[i]} < ${x}</span>. Sol taraf eleniyor. Fibonacci 1 adım geri alındı.`);
             for(let j = offset + 1; j <= i; j++) {
                 let eBox = document.getElementById("fsBox-" + j);
                 if(eBox) eBox.classList.add("eliminated");
@@ -275,7 +231,7 @@ async function runSearchTest() {
             fbM = fb1; fb1 = fb2; fb2 = fbM - fb1;
             offset = i;
         } else if(searchArray[i] > x) {
-            log(`[<] ${searchArray[i]} > ${x}. Sağ taraf eleniyor. F değerleri iki adım geri alınıyor.`);
+            log(`[<] <span style="color:#ef4444">${searchArray[i]} > ${x}</span>. Sağ taraf eleniyor. Fibonacci 2 adım geri alındı.`);
             for(let j = i; j < n; j++) {
                 let eBox = document.getElementById("fsBox-" + j);
                 if(eBox) eBox.classList.add("eliminated");
@@ -286,19 +242,19 @@ async function runSearchTest() {
                 activeBox.classList.remove("active");
                 activeBox.classList.add("found");
             }
-            resultBox.innerHTML = `<span style='color:#10b981;'>Başarılı! [${x}] sayısı, <strong>${i}.</strong> indekste bulundu.</span>`;
+            resultBox.innerHTML = `<span style='color:#10b981;'>🎉 Başarılı! [${x}] sayısı, <strong>${i}.</strong> indekste bulundu.</span>`;
             found = true;
             break;
         }
-        await sleep(500);
+        await sleep(800);
     }
 
     if (!found) {
         if (fb1 === 1 && offset + 1 < n && searchArray[offset + 1] === x) {
             document.getElementById("fsBox-" + (offset + 1)).classList.add("found");
-            resultBox.innerHTML = `<span style='color:#10b981;'>Başarılı! [${x}] sayısı, <strong>${offset + 1}.</strong> indekste bulundu.</span>`;
+            resultBox.innerHTML = `<span style='color:#10b981;'>🎉 Başarılı! [${x}] sayısı, <strong>${offset + 1}.</strong> indekste bulundu.</span>`;
         } else {
-            resultBox.innerHTML = `<span style='color:#ef4444;'>Sayı bulunamadı. Dizi içinde yer almıyor.</span>`;
+            resultBox.innerHTML = `<span style='color:#ef4444;'>❌ Sayı bulunamadı. Dizi içinde yer almıyor.</span>`;
             log(`[BİTİŞ] ${x} dizide bulunamadı.`);
         }
     }
@@ -317,23 +273,45 @@ function resetFibSearch() {
 }
 
 /* ========================================================
-   4. JAVA BIG-INTEGER SİMÜLATÖRÜ
+   PASCAL ÜÇGENİ JENERATÖRÜ
 ======================================================== */
-function runGenerator() {
-    let n = document.getElementById("genInput").value;
-    let textArea = document.getElementById("genResult");
-    if (n <= 0 || n > 1000) { textArea.value = "Hata: 1-1000 arası değer giriniz."; return; }
-    let a = 0n, b = 1n;
-    let outputText = "İlk " + n + " Fibonacci terimi:\n\n";
-    for (let i = 1; i <= n; i++) {
-        outputText += i + ". Terim: " + a.toString() + "\n";
-        let next = a + b; a = b; b = next;
+function runPascalGenerator() {
+    let inputEl = document.getElementById("pascalInput");
+    let resultBox = document.getElementById("pascalResult");
+    if(!inputEl || !resultBox) return;
+
+    let n = parseInt(inputEl.value);
+    if(isNaN(n) || n < 1 || n > 15) {
+        resultBox.innerHTML = "<span style='color:#ef4444; width:100%; text-align:center;'>Hata: Lütfen 1 ile 15 arasında bir değer giriniz.</span>";
+        return;
     }
-    textArea.value = outputText;
+
+    resultBox.innerHTML = "";
+    let delay = 0;
+    
+    for(let i = 0; i < n; i++) {
+        let rowDiv = document.createElement("div");
+        rowDiv.className = "pascal-row";
+        let val = 1;
+        
+        for(let j = 0; j <= i; j++) {
+            let block = document.createElement("div");
+            block.className = "pascal-block";
+            if(j === 0 || j === i) block.classList.add("edge");
+            
+            block.innerText = val;
+            block.style.animationDelay = `${delay}ms`;
+            rowDiv.appendChild(block);
+            
+            val = val * (i - j) / (j + 1);
+            delay += 30; // Animasyon hızı
+        }
+        resultBox.appendChild(rowDiv);
+    }
 }
 
 /* ========================================================
-   5. 8 İNTERAKTİF ALGORİTMA DENEYİ
+   5 İNTERAKTİF ALGORİTMA DENEYİ
 ======================================================== */
 function getFiboArray(n) {
     let arr = [0, 1];
@@ -365,9 +343,6 @@ function checkGame1() {
         setTimeout(startGame1, 2000);
     }
 }
-window.addEventListener("load", () => {
-    if(document.getElementById("seqDisplay")) startGame1();
-});
 
 // Oyun 2: Altın Oran
 function calcGolden() {
@@ -377,8 +352,8 @@ function calcGolden() {
     let kucuk = (val - buyuk).toFixed(4);
     let oran = (buyuk / kucuk).toFixed(6);
     document.getElementById("goldenResult").innerHTML =
-        `Büyük: <strong>${buyuk}</strong> | Küçük: <strong>${kucuk}</strong><br>
-         <small style="color:var(--text-light)">Oran: ${oran} ≈ φ (${Math.abs(oran - 1.618) < 0.001 ? '✅ Mükemmel' : '≈ Yakın'})</small>`;
+        `Büyük Parça: <strong>${buyuk}</strong> | Küçük Parça: <strong>${kucuk}</strong><br>
+         <small style="color:var(--text-light)">Oranlama Testi (Büyük/Küçük): ${oran} ≈ φ (${Math.abs(oran - 1.618) < 0.001 ? '✅ Mükemmel' : '≈ Yakın'})</small>`;
 }
 
 // Oyun 3: Tavşan
@@ -386,7 +361,7 @@ function calcRabbit() {
     let aylar = parseInt(document.getElementById("rabbitInput").value);
     if(isNaN(aylar) || aylar < 1 || aylar > 50) return;
     let arr = getFiboArray(aylar + 2);
-    document.getElementById("rabbitResult").innerText = aylar + " ay sonra: " + arr[aylar+1].toLocaleString() + " çift.";
+    document.getElementById("rabbitResult").innerText = aylar + " ay sonra toplam: " + arr[aylar+1].toLocaleString() + " çift tavşan.";
 }
 
 // Oyun 4: Borsa
@@ -396,7 +371,9 @@ function calcFiboLevels() {
     if(isNaN(h) || isNaN(l) || l >= h) return;
     let d = h - l;
     document.getElementById("fiboLevelsResult").innerHTML =
-        `%23.6: <b>${(h - d*0.236).toFixed(2)}</b> | %38.2: <b>${(h - d*0.382).toFixed(2)}</b><br>%50: <b>${(h - d*0.5).toFixed(2)}</b> | %61.8: <b>${(h - d*0.618).toFixed(2)}</b>`;
+        `Zayıf Destek (%23.6): <b style="color:#ef4444;">${(h - d*0.236).toFixed(2)}</b><br>
+         Orta Destek (%38.2): <b style="color:#f59e0b;">${(h - d*0.382).toFixed(2)}</b><br>
+         Güçlü Destek (%61.8): <b style="color:#10b981;">${(h - d*0.618).toFixed(2)}</b>`;
 }
 
 // Oyun 5: Şifreleme
@@ -411,7 +388,7 @@ function encryptText() {
             enc += String.fromCharCode(nCode);
         } else enc += text[i];
     }
-    document.getElementById("cipherResult").innerText = "Şifreli: " + enc;
+    document.getElementById("cipherResult").innerText = "Şifreli Sonuç: " + enc;
 }
 function decryptText() {
     let text = document.getElementById("decipherInput").value.toUpperCase();
@@ -424,58 +401,16 @@ function decryptText() {
             dec += String.fromCharCode(nCode);
         } else dec += text[i];
     }
-    document.getElementById("decipherResult").innerText = "Deşifre: " + dec;
+    document.getElementById("decipherResult").innerText = "Orijinal Kelime: " + dec;
 }
 
-// Oyun 6: Merdiven
-function calcStairs() {
-    let n = parseInt(document.getElementById("stairsInput").value);
-    if(isNaN(n) || n < 1 || n > 45) return;
-    if (n <= 2) { document.getElementById("stairsResult").innerText = n + " farklı yol."; return; }
-    let a = 1, b = 2;
-    for (let i = 3; i <= n; i++) { let temp = a+b; a=b; b=temp; }
-    document.getElementById("stairsResult").innerText = b.toLocaleString() + " farklı yol.";
-}
-
-// Oyun 7: Zeckendorf
-function calcZeckendorf() {
-    let n = parseInt(document.getElementById("zeckInput").value);
-    if (isNaN(n) || n <= 0 || n > 100000) return;
-    let fib = getFiboArray(100);
-    let result = [];
-    let num = n;
-    while(num > 0) {
-        let maxFibo = 0;
-        for(let i=0; i<fib.length; i++) {
-            if(fib[i] <= num) maxFibo = fib[i];
-            else break;
-        }
-        if(maxFibo === 0) break;
-        result.push(maxFibo);
-        num -= maxFibo;
-    }
-    document.getElementById("zeckResult").innerText = n + " = " + result.join(" + ");
-}
-
-// Oyun 8: Pisano
-function calcPisano() {
-    let m = parseInt(document.getElementById("pisanoInput").value);
-    if (isNaN(m) || m <= 1) { document.getElementById("pisanoResult").innerText = "M > 1 olmalıdır."; return; }
-    let prev = 0, curr = 1, period = 0;
-    for(let i = 0; i < m * m; i++) {
-        let temp = (prev + curr) % m;
-        prev = curr; curr = temp;
-        if(prev === 0 && curr === 1) { period = i + 1; break; }
-    }
-    document.getElementById("pisanoResult").innerText = "Periyot Uzunluğu: " + period;
-}
 
 /* ========================================================
-   6. İLERİ DÜZEY MODÜLLER: SAAT, SARMAL, MÜZİK vs.
+   İLERİ DÜZEY MODÜLLER: SAAT, SARMAL, MÜZİK vs.
 ======================================================== */
 
 // Fibonacci Saati
-const FIBO_SET = new Set([0,1,2,3,5,8,13,21,34,55,89,144]);
+const FIBO_SET = new Set([0,1,2,3,5,8,13,21,34,55,89]);
 function isFibonacci(n) { return FIBO_SET.has(n); }
 
 function updateFiboClock() {
@@ -499,14 +434,12 @@ function updateFiboClock() {
     sEl.className = "clock-digits" + (isFibonacci(s) ? " fibo" : "");
 
     let infos = [];
-    if (isFibonacci(h)) infos.push(`🟢 Saat <b>${h}</b>, Fibonacci dizisinde yer alıyor!`);
-    if (isFibonacci(m)) infos.push(`🟢 Dakika <b>${m}</b>, Fibonacci dizisinde yer alıyor!`);
-    if (isFibonacci(s)) infos.push(`🟢 Saniye <b>${s}</b>, Fibonacci dizisinde yer alıyor!`);
-    
-    if (infos.length === 0) {
+    if (isFibonacci(h) || isFibonacci(m) || isFibonacci(s)) {
+        infos.push(`<span style="color:#10b981">✨ Şu an Fibonacci Zamanı!</span>`);
+    } else {
         const fibs = [0,1,2,3,5,8,13,21,34,55,89];
         let next = fibs.find(f => f > s) || 89;
-        infos.push(`Şu an hiçbir zaman birimi Fibonacci değil. Bir sonraki fibo saniyesi: <b>${next}</b>`);
+        infos.push(`Sonraki Fibonacci saniyesi: ${next}`);
     }
 
     const infoEl = document.getElementById("clockFiboInfo");
@@ -515,9 +448,9 @@ function updateFiboClock() {
 setInterval(updateFiboClock, 1000);
 updateFiboClock();
 
-// Canlı Sarmal (Canvas)
+// SARMAL ÇİZİMİ (Klasik Fibonacci Kareleri & Logaritmik Çizgi)
 let spiralAnimId = null;
-let spiralAngle = 0;
+let spiralProgress = 0;
 let spiralRunning = true;
 let spiralTerms = 8;
 let spiralSpeedVal = 3;
@@ -526,14 +459,14 @@ function getThemeColors() {
     const isDark = document.body.classList.contains("dark-theme");
     return {
         bg: isDark ? "#020617" : "#f4f7fb",
-        line: isDark ? "#1e293b" : "#e2e8f0",
+        line: isDark ? "rgba(30, 41, 59, 0.4)" : "rgba(226, 232, 240, 0.8)",
         text: isDark ? "#94a3b8" : "#475569",
-        primary: isDark ? "#3b82f6" : "#2563eb",
-        arc: isDark ? "rgba(56,189,248,0.9)" : "rgba(37,99,235,0.9)"
+        arc: isDark ? "#38bdf8" : "#2563eb",
+        squareFill: isDark ? "rgba(56,189,248,0.03)" : "rgba(37,99,235,0.03)"
     };
 }
 
-function drawSpiral(terms) {
+function drawSpiral(terms, progress) {
     const canvas = document.getElementById("fibSpiral");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -544,90 +477,135 @@ function drawSpiral(terms) {
     ctx.fillStyle = colors.bg;
     ctx.fillRect(0, 0, W, H);
 
-    const fibs = [1, 1];
-    for (let i = 2; i < terms; i++) fibs.push(fibs[i-1] + fibs[i-2]);
+    let fibs = [1, 1];
+    for (let i = 2; i < terms; i++) {
+        fibs.push(fibs[i-1] + fibs[i-2]);
+    }
 
-    const scale = Math.min(W, H) / (fibs[terms-1] + fibs[terms-2]) * 0.85;
-    let rects = computeSpiralRects(fibs.slice(0, terms), scale, W, H);
+    const totalW = fibs[terms-1] + fibs[terms-2];
+    const scale = Math.min(W, H) / totalW * 0.8;
+    
+    let cx = W / 2;
+    let cy = H / 2;
+    
+    let dir = 0;
+    let rects = [];
+    
+    let tempX = 0, tempY = 0;
+    let tempDir = (terms - 1) % 4; 
+    for (let i = terms - 1; i >= 0; i--) {
+        let s = fibs[i] * scale;
+        if (tempDir === 0) tempX -= s;
+        else if (tempDir === 1) tempY += s; 
+        else if (tempDir === 2) { tempX += fibs[i-1]*scale; tempY += 0; } 
+        tempDir = (tempDir - 1 + 4) % 4;
+    }
+    
+    dir = 0;
+    let x = cx - (scale*0.5); 
+    let y = cy - (scale*0.5);
+    
+    for (let i = 0; i < terms; i++) {
+        let s = fibs[i] * scale;
+        
+        rects.push({ x: x, y: y, s: s, dir: dir, val: fibs[i] });
+        
+        if (dir === 0) { 
+            x += s;
+            y -= (i+1 < terms ? fibs[i+1]*scale - s : 0);
+        } else if (dir === 1) { 
+            x -= (i+1 < terms ? fibs[i+1]*scale : 0);
+            y -= s;
+        } else if (dir === 2) { 
+            x -= (i+1 < terms ? fibs[i+1]*scale : 0);
+            y += s;
+        } else if (dir === 3) { 
+            y += s;
+        }
+        
+        dir = (dir + 1) % 4;
+    }
 
     rects.forEach(r => {
-        ctx.strokeStyle = r.color;
-        ctx.lineWidth = 2;
-        ctx.globalAlpha = 0.7;
-        ctx.strokeRect(r.x + 1, r.y + 1, r.s - 2, r.s - 2);
-        ctx.globalAlpha = 0.08;
-        ctx.fillStyle = r.color;
-        ctx.fillRect(r.x + 1, r.y + 1, r.s - 2, r.s - 2);
-        ctx.globalAlpha = 1;
+        ctx.strokeStyle = colors.line;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(r.x, r.y, r.s, r.s);
+        
+        ctx.fillStyle = colors.squareFill;
+        ctx.fillRect(r.x, r.y, r.s, r.s);
 
-        ctx.fillStyle = colors.text;
-        ctx.font = `bold ${Math.max(10, Math.min(14, r.s * 0.2))}px 'Fira Code'`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        if (r.s > 20) ctx.fillText(fibs[r.i], r.x + r.s/2, r.y + r.s/2);
+        if (r.s > 15) {
+            ctx.fillStyle = colors.text;
+            ctx.font = `500 ${Math.max(10, Math.min(16, r.s * 0.2))}px 'Inter'`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(r.val, r.x + r.s/2, r.y + r.s/2);
+        }
     });
 
     ctx.strokeStyle = colors.arc;
-    ctx.lineWidth = 3;
-    ctx.shadowColor = colors.primary;
-    ctx.shadowBlur = 8;
+    ctx.lineWidth = 3.5;
+    ctx.lineCap = "round";
+    ctx.shadowColor = colors.arc;
+    ctx.shadowBlur = 10;
     ctx.beginPath();
-    rects.forEach((r, idx) => {
-        const corners = [
-            [r.x, r.y + r.s],
-            [r.x + r.s, r.y + r.s],
-            [r.x + r.s, r.y],
-            [r.x, r.y]
-        ];
-        const startAngle = (idx % 4) * Math.PI / 2 + spiralAngle * 0.005;
-        const endAngle = startAngle + Math.PI / 2;
-        const [ox, oy] = corners[idx % 4];
-        ctx.arc(ox, oy, r.s, startAngle, endAngle);
-    });
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-}
+    
+    for (let i = 0; i < terms; i++) {
+        if (i > progress) break; 
+        
+        let r = rects[i];
+        let startAngle, endAngle;
+        let arcCX, arcCY;
 
-function computeSpiralRects(fseq, scale, W, H) {
-    const n = fseq.length;
-    const rects = [];
-    const totalW = (fseq[n-1] + fseq[n-2]) * scale;
-    const totalH = (fseq[n-1] + fseq[n-3 >= 0 ? n-3 : 0]) * scale;
-    let cx = W/2 - totalW/3;
-    let cy = H/2 - totalH/3;
+        if (r.dir === 0) { 
+            arcCX = r.x; arcCY = r.y + r.s;
+            startAngle = 1.5 * Math.PI; 
+        } else if (r.dir === 1) { 
+            arcCX = r.x + r.s; arcCY = r.y + r.s;
+            startAngle = 1.0 * Math.PI; 
+        } else if (r.dir === 2) { 
+            arcCX = r.x + r.s; arcCY = r.y;
+            startAngle = 0.5 * Math.PI; 
+        } else { 
+            arcCX = r.x; arcCY = r.y;
+            startAngle = 0; 
+        }
+        
+        endAngle = startAngle + (Math.PI / 2); 
+        
+        if (progress < i + 1) {
+            endAngle = startAngle + (progress - i) * (Math.PI / 2);
+        }
 
-    for (let i = n - 1; i >= 0; i--) {
-        const s = fseq[i] * scale;
-        rects.push({x: cx, y: cy, s, color: null, i});
-        const d = (n - 1 - i) % 4;
-        if (d === 0) { cx += s; }
-        else if (d === 1) { cy += s; }
-        else if (d === 2) { cx -= fseq[i] * scale; cy -= (i > 0 ? fseq[i-1] : 0) * scale; }
-        else if (d === 3) { cy -= (i > 0 ? fseq[i-1] : 0) * scale; cx += 0; }
+        ctx.arc(arcCX, arcCY, r.s, startAngle, endAngle);
     }
-
-    const palette = ["#ef4444","#f97316","#eab308","#22c55e","#06b6d4","#3b82f6","#8b5cf6","#ec4899","#10b981","#f59e0b","#6366f1","#14b8a6"];
-    rects.forEach((r, idx) => r.color = palette[idx % palette.length]);
-    return rects;
+    
+    ctx.stroke();
+    ctx.shadowBlur = 0; 
 }
 
 function animateSpiral() {
     if (!spiralRunning) return;
-    spiralAngle += spiralSpeedVal * 0.3;
-    drawSpiral(spiralTerms);
+    
+    spiralProgress += spiralSpeedVal * 0.012;
+    
+    if (spiralProgress > spiralTerms + 1.5) {
+        spiralProgress = 0; 
+    }
+    
+    drawSpiral(spiralTerms, Math.min(spiralProgress, spiralTerms));
     spiralAnimId = requestAnimationFrame(animateSpiral);
 }
 
 function updateSpiral(val) {
     spiralTerms = parseInt(val);
     document.getElementById("spiralTermLabel").textContent = val;
-    drawSpiral(spiralTerms);
+    spiralProgress = 0;
+    drawSpiral(spiralTerms, spiralProgress);
 }
 
 function updateSpiralSpeed(val) {
     spiralSpeedVal = parseInt(val);
-    const labels = ["","Çok Yavaş","Yavaş","Orta","Hızlı","Çok Hızlı"];
-    document.getElementById("spiralSpeedLabel").textContent = labels[val];
 }
 
 function toggleSpiralAnim() {
@@ -637,18 +615,19 @@ function toggleSpiralAnim() {
 }
 
 function resetSpiral() {
-    spiralAngle = 0;
-    drawSpiral(spiralTerms);
+    spiralProgress = 0;
+    drawSpiral(spiralTerms, spiralProgress);
 }
 
 window.addEventListener("load", () => {
     if(document.getElementById("fibSpiral")) {
-        drawSpiral(spiralTerms);
+        drawSpiral(spiralTerms, spiralProgress);
         animateSpiral();
     }
     if(document.getElementById("fsArray")) renderSearchArray();
-    if(document.getElementById("complexityChart")) drawComplexityChart(20);
+    if(document.getElementById("complexityChart")) drawComplexityChart(100);
     if(document.getElementById("musicBars")) renderMusicBars(8);
+    if(document.getElementById("seqDisplay")) startGame1();
 });
 
 // Müzik Üreteci
@@ -689,7 +668,7 @@ function playFiboMusic() {
     const scaleName = document.getElementById("musicScale").value;
     const scale = SCALES[scaleName];
     const fibs = getFiboArray(n + 5).slice(2, n + 2);
-    const baseFreq = 220;
+    const baseFreq = 220; 
     const noteDur = 0.45;
     const gap = 0.05;
 
@@ -718,7 +697,7 @@ function playFiboMusic() {
             const bar = document.getElementById("mbar-" + i);
             if (bar) bar.classList.add("active");
             const infoEl = document.getElementById("musicInfo");
-            if (infoEl) infoEl.textContent = `${i+1}. nota: F(${i+2})=${f} → ${freq.toFixed(1)} Hz`;
+            if (infoEl) infoEl.innerHTML = `🎵 Çalınan Nota: F(${i+2}) = <strong>${f}</strong> &nbsp;→&nbsp; ${freq.toFixed(1)} Hz`;
         }, i * (noteDur + gap) * 1000);
     });
 
@@ -741,7 +720,7 @@ function stopMusic() {
     if (audioCtx) { audioCtx.close(); audioCtx = null; }
 }
 
-// Karmaşıklık Grafiği
+// KARMAŞIKLIK GRAFİĞİ: Linear vs Fibonacci Search
 function updateComplexity(val) {
     document.getElementById("complexNLabel").textContent = val;
     drawComplexityChart(parseInt(val));
@@ -755,72 +734,66 @@ function drawComplexityChart(N) {
     const colors = getThemeColors();
 
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = colors.bg;
-    ctx.fillRect(0, 0, W, H);
 
-    const pad = { top: 30, right: 30, bottom: 50, left: 70 };
+    const pad = { top: 20, right: 30, bottom: 40, left: 60 };
     const cW = W - pad.left - pad.right;
     const cH = H - pad.top - pad.bottom;
+    
+    let linearData = [];
+    let fiboData = [];
+    let steps = 20; 
+    
+    for(let i=1; i<=steps; i++) {
+        let currentN = (N / steps) * i;
+        linearData.push(currentN); 
+        fiboData.push(Math.log2(currentN + 1) * 1.5); 
+    }
 
-    const xs = Array.from({length: N}, (_, i) => i + 1);
-    const recur = xs.map(x => Math.pow(2, x));
-    const linear = xs.map(x => x);
-    const logn = xs.map(x => Math.log2(x + 1));
+    const maxVal = N;
 
-    const maxVal = Math.min(Math.pow(2, N), 1e9);
-
-    function toY(v, max) { return pad.top + cH - (Math.min(v, max) / max) * cH; }
-    function toX(i) { return pad.left + (i / (N - 1 || 1)) * cW; }
+    function toY(v) { return pad.top + cH - (v / maxVal) * cH; }
+    function toX(i) { return pad.left + (i / (steps - 1)) * cW; }
 
     ctx.strokeStyle = colors.line;
     ctx.lineWidth = 1;
-    for (let i = 0; i <= 5; i++) {
-        const y = pad.top + (i / 5) * cH;
+    for (let i = 0; i <= 4; i++) {
+        const y = pad.top + (i / 4) * cH;
         ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + cW, y); ctx.stroke();
-        const label = ((1 - i/5) * maxVal).toFixed(0);
-        ctx.fillStyle = colors.text; ctx.font = "10px Inter"; ctx.textAlign = "right";
-        ctx.fillText(label > 1000 ? (label/1000).toFixed(0)+"K" : label, pad.left - 5, y + 4);
-    }
-
-    ctx.strokeStyle = colors.line;
-    for (let i = 0; i < N; i += Math.max(1, Math.floor(N/8))) {
-        const xp = toX(i);
-        ctx.beginPath(); ctx.moveTo(xp, pad.top); ctx.lineTo(xp, pad.top + cH); ctx.stroke();
-        ctx.fillStyle = colors.text; ctx.textAlign = "center";
-        ctx.fillText(i+1, xp, pad.top + cH + 20);
+        
+        const label = ((1 - i/4) * maxVal).toFixed(0);
+        ctx.fillStyle = colors.text; ctx.font = "11px Inter"; ctx.textAlign = "right";
+        ctx.fillText(label, pad.left - 8, y + 4);
     }
 
     ctx.fillStyle = colors.text; ctx.textAlign = "center";
-    ctx.fillText("N (terim sayısı)", pad.left + cW/2, H - 5);
+    ctx.fillText("Dizi Boyutu (N)", pad.left + cW/2, H - 5);
 
     function drawLine(data, color, dash=[]) {
-        ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.setLineDash(dash);
+        ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.setLineDash(dash);
         ctx.beginPath();
         data.forEach((v, i) => {
-            const x = toX(i), y = toY(v, maxVal);
+            const x = toX(i), y = toY(v);
             i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
         });
         ctx.stroke(); ctx.setLineDash([]);
     }
 
-    drawLine(recur, "#ef4444");
-    drawLine(linear, "#3b82f6", [5,3]);
-    drawLine(logn, "#10b981", [2,2]);
+    drawLine(linearData, "#ef4444"); 
+    drawLine(fiboData, "#10b981"); 
+
+    const linearMax = Math.round(N);
+    const fiboMax = Math.round(Math.log2(N + 1) * 1.5); 
 
     const tableEl = document.getElementById("complexityTable");
     if (tableEl) {
         tableEl.innerHTML = `
             <div class="comp-cell">
-                <div class="comp-name" style="color:#ef4444">Yinelemeli O(2ⁿ)</div>
-                <div class="comp-val">${recur[N-1] > 1e9 ? ">1 Milyar" : recur[N-1].toLocaleString()}</div>
+                <div class="comp-name" style="color:#ef4444">Doğrusal Arama (Adım)</div>
+                <div class="comp-val">${linearMax.toLocaleString()}</div>
             </div>
             <div class="comp-cell">
-                <div class="comp-name" style="color:#3b82f6">Döngüsel O(n)</div>
-                <div class="comp-val">${N}</div>
-            </div>
-            <div class="comp-cell">
-                <div class="comp-name" style="color:#10b981">Matris O(log n)</div>
-                <div class="comp-val">${Math.ceil(Math.log2(N + 1))}</div>
+                <div class="comp-name" style="color:#10b981">Fibonacci Arama (Adım)</div>
+                <div class="comp-val">${fiboMax}</div>
             </div>
         `;
     }
@@ -828,42 +801,12 @@ function drawComplexityChart(N) {
 
 // Doğada Fibonacci Galeri
 const natureData = {
-    ayicicegi: {
-        title: "🌻 Ayçiçeği — Doğanın Mükemmel Algoritması",
-        desc: `Ayçiçeğinin merkez tohumları <b>34 saat yönünde</b> ve <b>55 saat yönü tersine</b> spiral oluşturur. Bu iki sayı birbirini takip eden Fibonacci terimleridir. Bu düzenleme, tohumların en verimli şekilde paketlenmesini sağlar.`,
-        math: "34 / 55 ≈ 0.618 = 1/φ",
-        color: "#eab308"
-    },
-    kabuk: {
-        title: "🐚 Nautilus Kabuğu — Logaritmik Sarmal",
-        desc: `Nautilus kabuğu bir <b>logaritmik sarmal</b> çizer. Kabuğun her tam dönüşü, bir önceki dönüşün φ ≈ 1.618 katı genişliğindedir. Bu yapı, hayvanın büyürken kabuğunu terk etmeden yaşamasına izin verir.`,
-        math: "r = a·e^(b·θ), b = ln(φ)/(π/2)",
-        color: "#06b6d4"
-    },
-    yaprak: {
-        title: "🍃 Yaprak Dizilimi (Filotaksi)",
-        desc: `Bitkilerdeki yaprak diziliminde gözlemlenen filotaksi düzeni Fibonacci oranlarına uyar. Elma ağacında her 5 yaprakta 2 tam sarmal oluşur. Bu oranlar (2/5, 3/8, 5/13...) Fibonacci sayılarından oluşur.`,
-        math: "137.5° = Altın Açı = 360°/φ²",
-        color: "#22c55e"
-    },
-    karisinca: {
-        title: "🐜 Arı Soyağacı",
-        desc: `Erkek arıların soyağacı incelendiğinde: 1 annesi, 2 büyükbabası/büyükannesi, 3 ikinci kuşak atası, 5 üçüncü kuşak atası vardır. Sayılar tam olarak Fibonacci dizisini oluşturur.`,
-        math: "F(1)=1, F(2)=1, F(3)=2, F(4)=3, F(5)=5...",
-        color: "#f59e0b"
-    },
-    parmak: {
-        title: "✋ İnsan Vücudu",
-        desc: `Parmak kemiklerinin uzunlukları Altın Oran ile orantılıdır: uç/orta ≈ orta/alt ≈ φ. DNA sarmalı her dönüşte 34 Å uzunluk ve 21 Å genişliğe sahiptir — ikisi de Fibonacci sayısı!`,
-        math: "El/Önkol ≈ φ ≈ 1.618",
-        color: "#8b5cf6"
-    },
-    galaksi: {
-        title: "🌌 Galaksiler",
-        desc: `Sarmal galaksilerin kolları, logaritmik sarmal şeklinde kıvrılır. Bu sarmaların açısı genellikle Altın Açıya (137.5°) yakındır. Evrenin en büyük yapıları bile bu dizinin izini taşır.`,
-        math: "Sarmal Açısı ≈ 137.5°",
-        color: "#6366f1"
-    }
+    ayicicegi: { title: "🌻 Ayçiçeği", desc: `Ayçiçeğinin merkez tohumları <b>34 saat yönünde</b> ve <b>55 saat yönü tersine</b> spiral oluşturur. Bu düzenleme, tohumların en verimli şekilde paketlenmesini sağlar.`, math: "34 / 55 ≈ 0.618 = 1/φ", color: "#eab308" },
+    kabuk: { title: "🐚 Nautilus Kabuğu", desc: `Nautilus kabuğu bir <b>logaritmik sarmal</b> çizer. Kabuğun her tam dönüşü, bir önceki dönüşün φ ≈ 1.618 katı genişliğindedir.`, math: "r = a·e^(b·θ)", color: "#06b6d4" },
+    yaprak: { title: "🍃 Yaprak Dizilimi (Filotaksi)", desc: `Bitkilerdeki yaprak diziliminde gözlemlenen filotaksi düzeni Fibonacci oranlarına uyar. Elma ağacında her 5 yaprakta 2 tam sarmal oluşur.`, math: "Altın Açı = 137.5°", color: "#22c55e" },
+    karisinca: { title: "🐜 Arı Soyağacı", desc: `Erkek arıların soyağacı incelendiğinde: 1 annesi, 2 büyükbabası, 3 ikinci kuşak atası, 5 üçüncü kuşak atası vardır.`, math: "F(n) = F(n-1) + F(n-2)", color: "#f59e0b" },
+    parmak: { title: "✋ İnsan Vücudu", desc: `Parmak kemiklerinin uzunlukları Altın Oran ile orantılıdır: uç/orta ≈ orta/alt ≈ φ.`, math: "Oran ≈ 1.618", color: "#8b5cf6" },
+    galaksi: { title: "🌌 Galaksiler", desc: `Sarmal galaksilerin kolları, logaritmik sarmal şeklinde kıvrılır. Açısı genellikle Altın Açıya yakındır.`, math: "Açı ≈ 137.5°", color: "#6366f1" }
 };
 
 function showNatureDetail(key) {
@@ -882,19 +825,19 @@ function showNatureDetail(key) {
 }
 
 /* ========================================================
-   10. BİLGİ YARIŞMASI (QUIZ)
+   10 SORULUK ELİT TEST (QUIZ)
 ======================================================== */
 const quizData = [
-    { q: "Fibonacci dizisinin ilk iki terimi nelerdir?", opts: ["1 ve 2", "0 ve 1", "1 ve 1", "0 ve 2"], ans: 1 },
-    { q: "Altın Oran (φ) yaklaşık olarak kaçtır?", opts: ["1.414", "1.732", "1.618", "2.718"], ans: 2 },
-    { q: "Java'da standart 'long' tipi kaçıncı Fibonacci terimini tutabilir?", opts: ["50.", "75.", "93.", "120."], ans: 2 },
-    { q: "Fibonacci dizisini ilk kez kim popüler etti?", opts: ["Isaac Newton", "Leonhard Euler", "Leonardo Fibonacci", "Carl Gauss"], ans: 2 },
-    { q: "Fibonacci'nin ünlü 'Liber Abaci' kitabı hangi yılda yayımlandı?", opts: ["1000", "1202", "1350", "1450"], ans: 1 },
-    { q: "F(10) (10. Fibonacci terimi, F(0)=0 başlangıçlı) kaçtır?", opts: ["34", "45", "55", "89"], ans: 2 },
-    { q: "Döngüsel Fibonacci algoritmasının zaman karmaşıklığı nedir?", opts: ["O(1)", "O(log n)", "O(n)", "O(n²)"], ans: 2 },
-    { q: "Nautilus kabuğunun her tam dönüşü bir öncekinin kaç katıdır?", opts: ["π (3.14)", "φ (1.618)", "e (2.718)", "√2 (1.414)"], ans: 1 },
-    { q: "Ayçiçeğinde 34 ve 55 spiral sayısı nedir?", opts: ["Ortalama spiral", "İki ardışık Fibonacci sayısı", "Asal sayılar", "Tam kareler"], ans: 1 },
-    { q: "Pisano Periyodu ne ile ilgilidir?", opts: ["Altın Açı hesabı", "Fibonacci mod m'nin tekrar periyodu", "Yinelemeli hesaplama", "BigInteger boyutu"], ans: 1 }
+    { q: "Fibonacci dizisinin ilk iki terimi aşağıdakilerden hangisidir?", opts: ["1 ve 2", "0 ve 1", "1 ve 1", "0 ve 2"], ans: 1 },
+    { q: "Altın Oran (φ) yaklaşık olarak hangi sayıya eşittir?", opts: ["1.414", "1.732", "1.618", "2.718"], ans: 2 },
+    { q: "Java'da standart 'long' tipi taşma yapmadan en fazla kaçıncı Fibonacci terimini tutabilir?", opts: ["50.", "75.", "93.", "120."], ans: 2 },
+    { q: "Fibonacci dizisini Avrupa'ya tanıtan 'Leonardo of Pisa' hangi yüzyılda yaşamıştır?", opts: ["10. Yüzyıl", "11. Yüzyıl", "13. Yüzyıl", "15. Yüzyıl"], ans: 2 },
+    { q: "Fibonacci'nin ünlü 'Liber Abaci' (Hesap Kitabı) hangi yılda yayımlandı?", opts: ["1000", "1202", "1350", "1450"], ans: 1 },
+    { q: "F(10) (10. Fibonacci terimi, F(0)=0 kabul edildiğinde) kaçtır?", opts: ["34", "45", "55", "89"], ans: 2 },
+    { q: "Klasik Döngüsel Fibonacci algoritmasının zaman karmaşıklığı (Time Complexity) nedir?", opts: ["O(1)", "O(log n)", "O(n)", "O(n²)"], ans: 2 },
+    { q: "Nautilus kabuğunun her tam dönüşü, bir önceki dönüşünün yaklaşık kaç katıdır?", opts: ["π (3.14)", "φ (1.618)", "e (2.718)", "√2 (1.414)"], ans: 1 },
+    { q: "Zeckendorf Teoremi'ne göre her pozitif tamsayı nasıl ifade edilebilir?", opts: ["Ardışık Fibonacci sayılarının toplamı", "Ardışık olmayan Fibonacci sayılarının toplamı", "Asal sayıların toplamı", "Altın Oranın üsleri olarak"], ans: 1 },
+    { q: "Fibonacci Search (Arama) algoritmasının hızı, İkili Arama (Binary Search) algoritmasına göre nasıldır?", opts: ["Çok daha yavaştır", "Aynı Big-O hızındadır (O(log n))", "O(1) sürede bulur", "O(n) sürede bulur"], ans: 1 }
 ];
 
 let currentQ = 0, score = 0, quizActive = false;
@@ -911,15 +854,17 @@ function showQuestion() {
     if (currentQ >= quizData.length) { endQuiz(); return; }
     const q = quizData[currentQ];
     document.getElementById("quizProgressText").textContent = `Soru ${currentQ+1}/${quizData.length}`;
-    document.getElementById("quizProgressBar").style.width = ((currentQ / quizData.length) * 100) + "%";
-    document.getElementById("quizQuestion").textContent = q.q;
+    document.getElementById("quizProgressBar").style.width = (((currentQ+1) / quizData.length) * 100) + "%";
+    document.getElementById("quizQuestion").innerHTML = `<span style="color:var(--primary); margin-right:10px;">Q${currentQ+1}.</span> ${q.q}`;
     document.getElementById("quizFeedback").textContent = "";
+    
     const optsEl = document.getElementById("quizOptions");
     optsEl.innerHTML = "";
+    
     q.opts.forEach((opt, i) => {
         const btn = document.createElement("button");
         btn.className = "quiz-option";
-        btn.textContent = opt;
+        btn.innerHTML = `<span style="font-weight:800; opacity:0.5; margin-right:8px;">${['A','B','C','D'][i]}</span> ${opt}`;
         btn.onclick = () => selectAnswer(i, btn, q.ans);
         optsEl.appendChild(btn);
     });
@@ -929,15 +874,16 @@ function showQuestion() {
 function selectAnswer(idx, btn, correctIdx) {
     document.querySelectorAll(".quiz-option").forEach(b => { b.disabled = true; });
     const feedback = document.getElementById("quizFeedback");
+    
     if (idx === correctIdx) {
         btn.classList.add("correct"); score++;
-        feedback.textContent = "✅ Doğru! Harika!"; feedback.style.color = "#10b981";
+        feedback.innerHTML = "✅ <span style='color:#10b981;'>Doğru Cevap! Harika gidiyorsun.</span>";
     } else {
         btn.classList.add("wrong");
         document.querySelectorAll(".quiz-option")[correctIdx].classList.add("correct");
-        feedback.textContent = `❌ Yanlış. Doğru cevap: ${quizData[currentQ].opts[correctIdx]}`; feedback.style.color = "#ef4444";
+        feedback.innerHTML = `❌ <span style='color:#ef4444;'>Yanlış!</span> Doğru Cevap: <strong>${quizData[currentQ].opts[correctIdx]}</strong>`;
     }
-    document.getElementById("quizNextBtn").style.display = "inline-block";
+    document.getElementById("quizNextBtn").style.display = "block";
 }
 
 function nextQuestion() {
@@ -950,17 +896,20 @@ function endQuiz() {
     document.getElementById("quizQuestion").textContent = "";
     document.getElementById("quizFeedback").textContent = "";
     document.getElementById("quizNextBtn").style.display = "none";
+    
     const scoreEl = document.getElementById("quizScore");
     scoreEl.style.display = "block";
+    
     const pct = Math.round((score / quizData.length) * 100);
     const emoji = pct >= 90 ? "🏆" : pct >= 70 ? "🌟" : pct >= 50 ? "👍" : "📚";
+    
     scoreEl.innerHTML = `
         <div class="score-emoji">${emoji}</div>
-        <h3>${score}/${quizData.length} Doğru</h3>
-        <p style="font-size:1.5rem;font-weight:700;color:var(--primary);margin:10px 0;">%${pct}</p>
-        <p>${pct >= 90 ? "Mükemmel! Fibonacci uzmanısınız!" : pct >= 70 ? "Harika! Çok iyi biliyorsunuz." : pct >= 50 ? "İyi iş! Biraz daha çalışabilirsiniz." : "Devam edin! Öğrenmek güzel bir yolculuktur."}</p>
-        <button class="btn" style="margin-top:15px;" onclick="startQuiz()">🔄 Tekrar Dene</button>
+        <h3>${score} / ${quizData.length} Doğru</h3>
+        <p style="font-size:1.5rem;font-weight:800;color:var(--primary);margin:10px 0; letter-spacing:1px;">Başarı Oranı: %${pct}</p>
+        <p style="margin-top:15px;">${pct >= 90 ? "Muazzam! Fibonacci ve Nümerik Analiz uzmanısınız!" : pct >= 70 ? "Harika iş çıkardınız! Çok iyi bir altyapınız var." : pct >= 50 ? "İyi deneme! Konuları tekrar gözden geçirerek daha iyi olabilirsiniz." : "Öğrenmek bir yolculuktur! Yukarıdaki içerikleri okuyup tekrar deneyin."}</p>
+        <button class="btn" style="margin-top:25px; padding:12px 30px;" onclick="startQuiz()">🔄 Testi Tekrar Çöz</button>
     `;
-    document.getElementById("quizProgressBar").style.width = "100%";
-    document.getElementById("quizProgressText").textContent = "Tamamlandı!";
+    
+    document.getElementById("quizProgressText").textContent = "Test Tamamlandı!";
 }

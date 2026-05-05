@@ -15,6 +15,27 @@
         <div class="progress-bar" id="myBar"></div>
     </div>
 
+    <!-- Sabitlenmiş Fibonacci Saati -->
+    <div id="floatingClock" class="floating-clock">
+        <div class="clock-panel">
+            <div class="clock-digit-group">
+                <div class="clock-label">SAAT</div>
+                <div class="clock-digits" id="clockHour">--</div>
+            </div>
+            <div class="clock-sep">:</div>
+            <div class="clock-digit-group">
+                <div class="clock-label">DAKİKA</div>
+                <div class="clock-digits" id="clockMin">--</div>
+            </div>
+            <div class="clock-sep">:</div>
+            <div class="clock-digit-group">
+                <div class="clock-label">SANİYE</div>
+                <div class="clock-digits" id="clockSec">--</div>
+            </div>
+        </div>
+        <div id="clockFiboInfo" class="clock-fibo-info"></div>
+    </div>
+
     <nav>
         <div class="logo-container">
             <div class="logo">Divina Proportione</div>
@@ -27,11 +48,10 @@
             <li><a href="#biyografi">Biyografi</a></li>
             <li><a href="#altin-oran">Altın Oran</a></li>
             <li><a href="#beyaz-tahta">Algoritmalar</a></li>
+            <li><a href="#fibo-search">Arama & Analiz</a></li>
             <li><a href="#pascal-ucgeni">Pascal Üçgeni</a></li>
-            <li><a href="#java-deneyi">Büyük Sayı</a></li>
-            <li><a href="#deneyler">8 Deney</a></li>
+            <li><a href="#deneyler">5 Deney</a></li>
             <li><a href="#evrenin-kodu">🌌 Keşfet</a></li>
-            <li><a href="#sss">S.S.S</a></li>
         </ul>
         <button id="themeToggle" class="theme-btn">☀️ / 🌙</button>
     </nav>
@@ -70,6 +90,11 @@
                     <h3>Liber Abaci ve Modern Matematiğin Doğuşu</h3>
                     <p>1202 yılında Pisa'ya dönen Fibonacci, bu sistemi detaylandırdığı başyapıtı <strong>Liber Abaci</strong>'yi yayımladı. Sıfır (0) rakamının basamak değeri olarak kullanılması, Avrupa'da modern matematik ve bilgisayar algoritmalarının temellerini attı.</p>
                     <p>Ünlü dizi ise bu kitapta yer alan "Tavşan Üreme Problemi" ile ortaya atıldı. <em>"Her ay yeni bir çift doğuran tavşanların 1 yıl sonundaki sayısı ne olur?"</em> sorusu, Altın Oran'ın formülünü matematik literatürüne kazandırdı.</p>
+                    
+                    <div class="formula-box">
+                        <strong class="formula-title">Fibonacci Dizisi Genel Formülü:</strong>
+                        <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/17b9605c317ffae410fc0c2794eb0be4a7d6e469" alt="Fn = Fn-1 + Fn-2" class="math-img">
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,6 +108,11 @@
                     <h3>Altın Oran Nedir?</h3>
                     <p>Altın Oran (Phi, 1.618...), matematikte ve sanatta, bir bütünün parçaları arasındaki en estetik ve en dengeli oran olarak kabul edilir. İki miktar arasındaki oran, bu iki miktarın toplamının büyük olanına oranına eşitse, bu oran "Altın Oran"dır.</p>
                     <p>Fibonacci dizisindeki ardışık iki sayının oranı, sayılar büyüdükçe kusursuz bir şekilde bu gizemli sabite yakınsar: 34/21 = 1.619, 55/34 = 1.617, 89/55 = 1.618...</p>
+                    
+                    <div class="formula-box">
+                        <strong class="formula-title">Altın Oran (Phi) Formülü:</strong>
+                        <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5f33f0174ec57db5c614b1ce3b9af4fcddc06124" alt="Phi = (1+sqrt(5))/2" class="math-img" style="max-height: 40px;">
+                    </div>
                 </div>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Da_Vinci_Vitruve_Luc_Viatour.jpg" alt="Vitruvius Adamı" class="bio-img">
             </div>
@@ -98,141 +128,220 @@
         </div>
     </section>
 
+    <!-- 1. AKADEMİK DİZİ (ARRAY) YAKLAŞIMI -->
     <section id="beyaz-tahta">
         <h2 class="reveal">Akademik Dizi (Array) Yaklaşımı</h2>
-        <p class="section-desc reveal">Aşağıdaki algoritma, tahtadaki kodun modern programlama standartlarına (0 indeksli yapı, kullanıcı girdisi ve hata denetimi) uyarlanmış, dinamik programlama çözümüdür.</p>
+        <p class="section-desc reveal">Bellek üzerinde dizi (array) tahsis edilerek hesaplanan klasik yöntem. Hafıza kullanımı O(N), Zaman karmaşıklığı O(N)'dir.</p>
         
         <div class="content-box wide-box reveal">
             <div class="java-split">
-                <div class="whiteboard-container">
-                    <div class="whiteboard-text">
-                        <div class="wb-title">Soru: Fibonacci dizisinin ilk N terimini veren algoritmayı yazınız.</div>
-                        <ol class="wb-list">
-                            <li>BAŞLA</li>
-                            <li>OKU N <span class="wb-note">// Kullanıcıdan terim sayısını al</span></li>
-                            <li><strong style="color:#ef4444;">EĞER N < 1 VEYA N > 50 İSE</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;YAZ <span style="color:#ef4444;">"Hata: Lütfen 1-50 arası girin"</span> VE BİTİR</li>
-                            <li>int a[N]; <span class="wb-note">// N boyutlu bellek (array) ayır</span></li>
-                            <li>a[0] = 0, a[1] = 1;</li>
-                            <li>YAZ a[0], a[1]</li>
-                            <li>Döngü (i = 2; i < N; i++) <br>
-                                { <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;a[i] = a[i-1] + a[i-2]; <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;YAZ a[i]; <br>
-                                }
-                            </li>
-                            <li>BİTİR</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="sim-panel">
-                    <div class="sim-header">Dizi (Array) Algoritması Deneyi</div>
-                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 15px;">Bu yöntem, bellekte girilen N kadar alan tahsis eder. Alan karmaşıklığı <strong>O(n)</strong>'dir.</p>
-                    
-                    <div class="input-group">
-                        <input type="number" id="arrayInput" max="50" min="1" value="10" placeholder="N değeri (1-50)...">
-                        <button class="btn" onclick="runArrayGenerator()">Diziyi Oluştur</button>
-                    </div>
-
-                    <div class="color-mode-row">
-                        <label><input type="checkbox" id="colorModeCheck" onchange="runArrayGenerator()"> Çift/Tek Renkli</label>
-                        <label><input type="checkbox" id="primeCheck" onchange="runArrayGenerator()"> Asalları Vurgula</label>
-                    </div>
-                    
-                    <div id="arrayResult" class="array-visual-box">
-                        <span class="array-placeholder">Sonuçlar dizilim (array) blokları halinde burada belirecek...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="fibo-search">
-        <h2 class="reveal">Fibonacci Search (Arama Algoritması)</h2>
-        <p class="section-desc reveal">İkili Arama (Binary Search) bölme işlemi kullanırken, Fibonacci Arama sadece toplama ve çıkarma işlemleri yaparak donanım seviyesinde çok daha verimli çalışır.</p>
-        
-        <div class="content-box wide-box reveal">
-            <div class="java-split">
-                <div class="sim-panel">
+                
+                <!-- Sol Taraf: Beyaz Tahta & Simülatör -->
+                <div class="split-left">
                     <div class="whiteboard-container" style="margin-bottom: 20px;">
                         <div class="whiteboard-text">
-                            <div class="wb-title">Soru: Sıralı bir dizide x sayısını arayan Fibonacci Search algoritmasını yazınız.</div>
+                            <div class="wb-title">Soru: İlk N Fibonacci terimini veren algoritmayı yazınız.</div>
                             <ol class="wb-list">
                                 <li>BAŞLA</li>
-                                <li><strong style="color:#ef4444;">EĞER Dizi Boşsa VEYA Hatalıysa</strong> { YAZ "Hata", BİTİR }</li>
-                                <li>fbM2 = 0, fbM1 = 1, fbM = 1</li>
-                                <li>Döngü (fbM < n) { fbM2=fbM1; fbM1=fbM; fbM=fbM2+fbM1; } <span class="wb-note">// Sınırı bul</span></li>
-                                <li>offset = -1</li>
-                                <li>Döngü (fbM > 1) <br>
+                                <li>OKU N <span class="wb-note">// Kullanıcıdan terim sayısını al</span></li>
+                                <li><strong style="color:#ef4444;">EĞER N < 1 VEYA N > 50 İSE</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;YAZ <span style="color:#ef4444;">"Hata: 1-50 arası girin"</span> VE BİTİR</li>
+                                <li>int a[N]; <span class="wb-note">// N boyutlu bellek (array) ayır</span></li>
+                                <li>a[0] = 0, a[1] = 1;</li>
+                                <li>Döngü (i = 2; i < N; i++) <br>
                                     { <br>
-                                    &nbsp;&nbsp;i = min(offset + fbM2, n - 1);<br>
-                                    &nbsp;&nbsp;EĞER (arr[i] < x) { fbM=fbM1; fbM1=fbM2; fbM2=fbM-fbM1; offset=i; } <span class="wb-note">// Sağ yarı</span><br>
-                                    &nbsp;&nbsp;EĞER (arr[i] > x) { fbM=fbM2; fbM1=fbM1-fbM2; fbM2=fbM-fbM1; } <span class="wb-note">// Sol yarı</span><br>
-                                    &nbsp;&nbsp;DEĞİLSE { YAZ "Bulundu"; BİTİR; }<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;a[i] = a[i-1] + a[i-2]; <br>
                                     }
                                 </li>
-                                <li>EĞER (fbM1 == 1 VE arr[offset+1] == x) { YAZ "Bulundu"; BİTİR; }</li>
-                                <li>YAZ "Bulunamadı", BİTİR</li>
+                                <li>YAZ a Dizisi VE BİTİR</li>
                             </ol>
                         </div>
                     </div>
 
-                    <div class="fs-demo-panel">
-                        <div class="sim-header" style="margin-top:0;">🔍 Canlı Arama Simülatörü</div>
-                        <div id="fsArray" class="fs-array-visual"></div>
-                        <div class="input-group" style="margin-top:14px;">
-                            <input type="number" id="searchInput" placeholder="Aşağıdaki dizide ara (Örn: 23)..." min="1">
-                            <button class="btn" onclick="runSearchTest()">Araştır</button>
+                    <div class="sim-panel">
+                        <div class="sim-header" style="margin-top:0;">Dizi (Array) Simülatörü</div>
+                        <div class="input-group">
+                            <input type="number" id="arrayInput" max="50" min="1" value="10" placeholder="N değeri (1-50)...">
+                            <button class="btn" onclick="runArrayGenerator()">Diziyi Oluştur</button>
                         </div>
-                        <button class="btn btn-outline" onclick="resetFibSearch()" style="width:100%;margin-top:8px;">↺ Sıfırla</button>
-                        <div id="fsLog" class="fs-log-box"><span style="color:var(--text-light);font-style:italic;">Arama adımları...</span></div>
-                        <div id="fsResult" class="result-box" style="margin-top:10px;">-</div>
+
+                        <div class="color-mode-row">
+                            <label><input type="checkbox" id="colorModeCheck" onchange="runArrayGenerator()"> Çift/Tek Renkli</label>
+                            <label><input type="checkbox" id="primeCheck" onchange="runArrayGenerator()"> Asalları Vurgula</label>
+                        </div>
+                        
+                        <div id="arrayResult" class="array-visual-box">
+                            <span class="array-placeholder">Sonuçlar dizilim blokları halinde burada belirecek...</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mac-window">
-                    <div class="mac-header">
-                        <div style="display:flex; gap:8px;"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-                        <span class="file-name" style="flex-grow:1;">FibonacciSearch.java</span>
-                        <button class="copy-btn" onclick="copyCode(this, 'fiboSearchCode')">Kopyala</button>
-                    </div>
-<pre><code id="fiboSearchCode">public int fibonacciSearch(int[] arr, int x) {
-    if (arr == null || arr.length == 0) return -1;
-    int n = arr.length;
-    
-    int fb2 = 0; // (m-2). Fibonacci
-    int fb1 = 1; // (m-1). Fibonacci
-    int fbM = fb2 + fb1; // m. Fibonacci
+                <!-- Sağ Taraf: Java Kodu -->
+                <div class="split-right">
+                    <div class="mac-window h-full">
+                        <div class="mac-header">
+                            <div style="display:flex; gap:8px;"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+                            <span class="file-name" style="flex-grow:1;">FibonacciDizisi.java</span>
+                            <button class="copy-btn" onclick="copyCode(this, 'arrayCode')">Kopyala</button>
+                        </div>
+<pre><code id="arrayCode">import java.util.Scanner;
 
-    while (fbM < n) {
-        fb2 = fb1;
-        fb1 = fbM;
-        fbM = fb2 + fb1;
-    }
+public class FibonacciDizisi {
+    public static void main(String[] args) {
+        Scanner tarayici = new Scanner(System.in);
+        System.out.print("Kaç terim istiyorsunuz? ");
+        int n = tarayici.nextInt();
 
-    int offset = -1;
-    while (fbM > 1) {
-        int i = Math.min(offset + fb2, n - 1);
-        if (arr[i] < x) {
-            fbM = fb1; fb1 = fb2; fb2 = fbM - fb1;
-            offset = i;
-        } else if (arr[i] > x) {
-            fbM = fb2; fb1 = fb1 - fb2; fb2 = fbM - fb1;
-        } else {
-            return i; // Bulundu
+        <span class="code-comment">// 1. Hata Kontrolü (Negatif veya 0 girilemez)</span>
+        if (n <= 0) {
+            System.out.println("Lütfen pozitif bir sayı girin.");
+            return;
+        }
+
+        <span class="code-comment">// 2. Bellekte N elemanlı bir dizi (Array) ayırıyoruz</span>
+        <span class="code-comment">// Hafıza Karmaşıklığı (Space Complexity): O(N)</span>
+        long[] dizi = new long[n];
+
+        <span class="code-comment">// 3. Dizinin ilk iki elemanı sabittir (0 ve 1)</span>
+        dizi[0] = 0;
+        if (n > 1) {
+            dizi[1] = 1;
+        }
+
+        <span class="code-comment">// 4. Döngü ile kendinden önceki iki sayıyı topluyoruz</span>
+        <span class="code-comment">// Zaman Karmaşıklığı (Time Complexity): O(N)</span>
+        for (int i = 2; i < n; i++) {
+            dizi[i] = dizi[i - 1] + dizi[i - 2];
+        }
+
+        <span class="code-comment">// 5. Sonuçları ekrana yazdırma</span>
+        System.out.println("Fibonacci Dizisi:");
+        for (int i = 0; i < n; i++) {
+            System.out.print(dizi[i] + " ");
         }
     }
-    
-    if (fb1 == 1 && offset + 1 < n && arr[offset + 1] == x)
-        return offset + 1;
-        
-    return -1; // Bulunamadı
 }</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- 2. FIBONACCI SEARCH YAKLAŞIMI -->
+    <section id="fibo-search">
+        <h2 class="reveal">Fibonacci Search (Arama Algoritması)</h2>
+        <p class="section-desc reveal">Klasik İkili Arama (Binary Search) diziyi sürekli ikiye bölme (/) işlemi yaparken, Fibonacci Arama sadece toplama (+) ve çıkarma (-) işlemleri yapar. Bilgisayar işlemcileri (CPU) için toplama ve çıkarma, bölme işleminden çok daha hızlıdır.</p>
+        
+        <div class="content-box wide-box reveal">
+            <div class="java-split">
+                
+                <!-- Sol Taraf: Simülatör -->
+                <div class="split-left">
+                    <div class="sim-panel">
+                        <div class="fs-demo-panel" style="margin-top:0;">
+                            <div class="sim-header" style="margin-top:0;">🔍 Canlı Arama Simülatörü</div>
+                            <p style="font-size:0.9rem; color:var(--text-light);">Aşağıdaki sıralı dizide bir sayı arayın. Adımları terminalden izleyin.</p>
+                            <div id="fsArray" class="fs-array-visual"></div>
+                            <div class="input-group" style="margin-top:14px;">
+                                <input type="number" id="searchInput" placeholder="Aşağıdaki dizide ara (Örn: 23)..." min="1">
+                                <button class="btn" onclick="runSearchTest()">Araştır</button>
+                            </div>
+                            <button class="btn btn-outline" onclick="resetFibSearch()" style="width:100%;margin-top:8px;">↺ Sıfırla</button>
+                            <div id="fsLog" class="fs-log-box"><span style="color:var(--text-light);font-style:italic;">Arama adımları burada görünecek...</span></div>
+                            <div id="fsResult" class="result-box" style="margin-top:10px;">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ Taraf: Java Kodu -->
+                <div class="split-right">
+                    <div class="mac-window h-full">
+                        <div class="mac-header">
+                            <div style="display:flex; gap:8px;"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+                            <span class="file-name" style="flex-grow:1;">FibonacciArama.java</span>
+                            <button class="copy-btn" onclick="copyCode(this, 'fiboSearchCode')">Kopyala</button>
+                        </div>
+<pre><code id="fiboSearchCode"><span class="code-comment">// Sıralı bir dizide hızlı arama yapan Fibonacci Algoritması</span>
+public static int fibonacciArama(int[] dizi, int arananDeger) {
+    int n = dizi.length;
+
+    <span class="code-comment">// 1. Başlangıç Fibonacci sayılarını tanımlıyoruz</span>
+    int fibM2 = 0; <span class="code-comment">// (m-2)'nci Fibonacci sayısı</span>
+    int fibM1 = 1; <span class="code-comment">// (m-1)'nci Fibonacci sayısı</span>
+    int fibM = fibM2 + fibM1; <span class="code-comment">// m'nci Fibonacci sayısı</span>
+
+    <span class="code-comment">// 2. Dizinin boyutundan büyük veya eşit olan en küçük Fibonacci sayısını buluyoruz</span>
+    while (fibM < n) {
+        fibM2 = fibM1;
+        fibM1 = fibM;
+        fibM = fibM2 + fibM1;
+    }
+
+    <span class="code-comment">// Elenen kısımları takip etmek için başlangıç noktası (offset)</span>
+    int baslangic = -1;
+
+    <span class="code-comment">// 3. Arama Döngüsü Başlıyor</span>
+    while (fibM > 1) {
+        <span class="code-comment">// Geçerli bir indeks hesaplıyoruz (dizinin dışına çıkmamak için Math.min kullanıyoruz)</span>
+        int i = Math.min(baslangic + fibM2, n - 1);
+
+        <span class="code-comment">// DURUM 1: Eğer aranan değer sağ taraftaysa (Sol tarafı çöpe at)</span>
+        if (dizi[i] < arananDeger) {
+            fibM = fibM1;       <span class="code-comment">// Fibonacci değerlerini 1 adım geri al</span>
+            fibM1 = fibM2;
+            fibM2 = fibM - fibM1;
+            baslangic = i;      <span class="code-comment">// Başlangıç noktasını sağa kaydır</span>
+        }
+        <span class="code-comment">// DURUM 2: Eğer aranan değer sol taraftaysa (Sağ tarafı çöpe at)</span>
+        else if (dizi[i] > arananDeger) {
+            fibM = fibM2;       <span class="code-comment">// Fibonacci değerlerini 2 adım geri al</span>
+            fibM1 = fibM1 - fibM2;
+            fibM2 = fibM - fibM1;
+        }
+        <span class="code-comment">// DURUM 3: Eşleşme bulundu!</span>
+        else {
+            return i; <span class="code-comment">// İndeksi geri döndür</span>
+        }
+    }
+
+    <span class="code-comment">// Son elemanı kontrol ediyoruz (bazı durumlarda döngüde kaçabilir)</span>
+    if (fibM1 == 1 && baslangic + 1 < n && dizi[baslangic + 1] == arananDeger) {
+        return baslangic + 1;
+    }
+
+    <span class="code-comment">// Sayı dizide yoksa -1 döndür</span>
+    return -1;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basitleştirilmiş Algoritma Karşılaştırması -->
+        <div class="content-box wide-box reveal" style="margin-top: 2.5rem;">
+            <div class="feature-header">
+                <span class="feature-badge">📊 Performans Analizi</span>
+                <h3>Arama Algoritmalarının Hız Karşılaştırması</h3>
+                <p><strong>Linear Search (Doğrusal Arama):</strong> Sayıları baştan sona tek tek kontrol eder. Dizi 1000 elemanlıysa, 1000 adım sürebilir (Çok Yavaş).<br>
+                <strong>Fibonacci Search:</strong> Diziyi Fibonacci oranlarına göre atlayarak böler. 1000 elemanlı dizide sayıyı en fazla 10-15 adımda bulur (Çok Hızlı).</p>
+            </div>
+            <div class="complexity-section">
+                <div class="complexity-controls" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                    <div style="flex-grow: 1;">
+                        <label>Dizinin Eleman Sayısı: <strong id="complexNLabel">100</strong></label>
+                        <input type="range" id="complexN" min="10" max="1000" step="10" value="100" oninput="updateComplexity(this.value)" style="width: 100%; max-width: 400px; display: block; margin-top: 10px;">
+                    </div>
+                    <div class="complexity-legend" style="margin-top: 0;">
+                        <span><span class="clegend" style="background:#ef4444"></span> Doğrusal Arama (Çok yavaş)</span>
+                        <span><span class="clegend" style="background:#10b981"></span> Fibonacci Arama (Çok hızlı)</span>
+                    </div>
+                </div>
+                <canvas id="complexityChart" width="700" height="250" style="max-width:100%; height:auto; background: var(--bg-secondary); margin-top: 20px;"></canvas>
+                <div id="complexityTable" class="complexity-table"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. PASCAL ÜÇGENİ YAKLAŞIMI -->
     <section id="pascal-ucgeni">
         <h2 class="reveal">Pascal Üçgeni ve Fibonacci Bağı</h2>
         <div class="content-box reveal">
@@ -255,156 +364,77 @@
             </div>
 
             <div class="java-split" style="margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 3rem;">
-                <div class="sim-panel">
-                    <div class="whiteboard-container" style="margin-bottom: 20px;">
-                        <div class="whiteboard-text">
-                            <div class="wb-title">Soru: Pascal üçgeninin ilk N satırını çizen algoritmayı yazınız.</div>
-                            <ol class="wb-list">
-                                <li>BAŞLA</li>
-                                <li>OKU N <span class="wb-note">// Satır sayısını al</span></li>
-                                <li><strong style="color:#ef4444;">EĞER N < 1 VEYA N > 15 İSE</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;YAZ <span style="color:#ef4444;">"Hata: 1-15 arası girin"</span> VE BİTİR</li>
-                                <li>Döngü (i = 0; i < N; i++)<br>
-                                    {<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;val = 1;<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;Döngü (boşluk = 0; boşluk < N - i; boşluk++) { YAZ "  "; }<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;Döngü (j = 0; j <= i; j++)<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YAZ val;<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val = val * (i - j) / (j + 1);<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;YAZ YeniSatır;<br>
-                                    }
-                                </li>
-                                <li>BİTİR</li>
-                            </ol>
+                
+                <!-- Sol Taraf: Simülatör -->
+                <div class="split-left">
+                    <div class="sim-panel">
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: var(--primary); margin-bottom: 10px; font-size:1.3rem;">Pascal Piramidi Çizici</h4>
+                            <p style="font-size: 0.95rem; color: var(--text-light);">Aşağıya çizilecek satır sayısını girin ve Pascal üçgeninin algoritmik inşasını canlı görün.</p>
                         </div>
-                    </div>
 
-                    <div class="input-group">
-                        <input type="number" id="pascalInput" max="15" min="1" value="7" placeholder="Satır sayısı (N)...">
-                        <button class="btn" onclick="runPascalGenerator()">Piramidi Çiz</button>
-                    </div>
-                    
-                    <div id="pascalResult" class="pascal-pyramid">
-                        <span class="array-placeholder">Pascal üçgeni burada görselleşecek...</span>
+                        <div class="input-group">
+                            <input type="number" id="pascalInput" max="15" min="1" value="7" placeholder="Satır sayısı (Örn: 7)...">
+                            <button class="btn" onclick="runPascalGenerator()">Piramidi Çiz</button>
+                        </div>
+                        
+                        <div id="pascalResult" class="pascal-pyramid">
+                            <span class="array-placeholder">Pascal üçgeni burada görselleşecek...</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mac-window">
-                    <div class="mac-header">
-                        <div style="display:flex; gap:8px;"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-                        <span class="file-name" style="flex-grow:1;">PascalTriangle.java</span>
-                        <button class="copy-btn" onclick="copyCode(this, 'pascalCode')">Kopyala</button>
-                    </div>
+                <!-- Sağ Taraf: Java Kodu -->
+                <div class="split-right">
+                    <div class="mac-window h-full">
+                        <div class="mac-header">
+                            <div style="display:flex; gap:8px;"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+                            <span class="file-name" style="flex-grow:1;">PascalUcgeni.java</span>
+                            <button class="copy-btn" onclick="copyCode(this, 'pascalCode')">Kopyala</button>
+                        </div>
 <pre><code id="pascalCode">import java.util.Scanner;
 
-public class PascalTriangle {
+public class PascalUcgeni {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        
-        // Hata Kontrolü
-        if(n < 1 || n > 15) {
-            System.out.println("Hata: Lütfen 1-15 arası girin");
-            return;
-        }
+        Scanner tarayici = new Scanner(System.in);
+        System.out.print("Kaç satır çizilsin? ");
+        int satirSayisi = tarayici.nextInt();
 
-        // O(1) Extra Space, O(N^2) Time Complexity
-        for (int i = 0; i < n; i++) {
-            // Görsel hizalama (Boşluklar)
-            for (int space = 0; space < n - i; space++) {
+        <span class="code-comment">// 1. Üçgeni satır satır çizmek için ana döngü başlar</span>
+        for (int i = 0; i < satirSayisi; i++) {
+
+            <span class="code-comment">// 2. Görsel Hizalama (Piramit şekli için boşluk bırakma)</span>
+            for (int bosluk = 0; bosluk < satirSayisi - i; bosluk++) {
                 System.out.print("  ");
             }
 
-            int val = 1;
+            <span class="code-comment">// 3. Her satırın en dıştaki ilk sayısı her zaman 1'dir</span>
+            int deger = 1;
+
+            <span class="code-comment">// 4. Satırdaki sayıları hesaplayıp yan yana yazdırıyoruz</span>
             for (int j = 0; j <= i; j++) {
-                System.out.printf("%4d", val);
-                // Kombinasyon: C(n, k+1) = C(n, k) * (n-k) / (k+1)
-                val = val * (i - j) / (j + 1);
+                <span class="code-comment">// %4d, sayının 4 karakterlik bir alan kaplamasını sağlar</span>
+                System.out.printf("%4d", deger);
+
+                <span class="code-comment">// Kombinasyon Mantığı: Yeni Değer = Eski Değer * (Satır - Sütun) / (Sütun + 1)</span>
+                deger = deger * (i - j) / (j + 1);
             }
+
+            <span class="code-comment">// 5. Bir satır tamamen bittikten sonra alt satıra (Enter) geçiyoruz</span>
             System.out.println();
         }
     }
 }</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="java-deneyi">
-        <h2 class="reveal">Büyük Sayı Jeneratörü</h2>
-        <p class="section-desc reveal">Java'nın <code>BigInteger</code> mimarisi ile yazılmış ve alanı <strong>O(1)</strong>'e düşüren, taşma hatasını (overflow) çözen devasa sayı üretim algoritması.</p>
-        
-        <div class="content-box wide-box reveal">
-            <div class="java-split">
-                <div class="sim-panel">
-                    <div class="whiteboard-container" style="margin-bottom: 20px;">
-                        <div class="whiteboard-text">
-                            <div class="wb-title">Soru: N=1000 için taşma yapmayan algoritmayı yazınız.</div>
-                            <ol class="wb-list">
-                                <li>BAŞLA</li>
-                                <li>OKU N</li>
-                                <li><strong style="color:#ef4444;">EĞER N < 1 VEYA N > 1000 İSE</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;YAZ <span style="color:#ef4444;">"Hata: 1-1000 arası değer giriniz"</span> VE BİTİR</li>
-                                <li>BigInt a = 0, b = 1; <span class="wb-note">// O(1) Alan Optimizasyonu</span></li>
-                                <li>Döngü (i = 1; i <= N; i++)<br>
-                                    {<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;YAZ a;<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;BigInt next = a + b;<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;a = b;<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;b = next;<br>
-                                    }
-                                </li>
-                                <li>BİTİR</li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="number" id="genInput" max="1000" min="1" value="100" placeholder="N değeri...">
-                        <button class="btn" onclick="runGenerator()">Konsolda Çalıştır</button>
-                    </div>
-                    <textarea id="genResult" readonly placeholder="Program çıktısı..."></textarea>
-                </div>
-
-                <div class="mac-window">
-                    <div class="mac-header">
-                        <div style="display:flex; gap:8px;"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-                        <span class="file-name" style="flex-grow:1;">FibonacciGenerator.java</span>
-                        <button class="copy-btn" onclick="copyCode(this, 'bigIntCode')">Kopyala</button>
-                    </div>
-<pre><code id="bigIntCode">import java.util.Scanner;
-import java.math.BigInteger;
-
-public class FibonacciGenerator {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-
-        // Sınır Kontrolü
-        if (n <= 0 || n > 1000) {
-            System.out.println("Hata: Lütfen 1-1000 arası girin");
-            return;
-        }
-        
-        BigInteger a = BigInteger.ZERO;
-        BigInteger b = BigInteger.ONE;
-
-        for (int i = 1; i <= n; i++) {
-            System.out.println(i + ": " + a);
-            BigInteger next = a.add(b);
-            a = b;
-            b = next;
-        }
-    }
-}</code></pre>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- DENEYLER BÖLÜMÜ -->
     <section id="deneyler">
-        <h2 class="reveal">8 İnteraktif Algoritma Deneyi</h2>
-        <p class="section-desc reveal">Oynamak ve kodlarını incelemek istediğiniz deneyin üzerine tıklayın.</p>
+        <h2 class="reveal">5 İnteraktif Algoritma Deneyi</h2>
+        <p class="section-desc reveal">Oynamak ve algoritmaların detaylı mantığını okumak istediğiniz deneyin üzerine tıklayın. (Sözel mantık ve akış algoritmaları eklenmiştir).</p>
         
         <div class="experiments-accordion-container reveal">
             
@@ -425,14 +455,12 @@ public class FibonacciGenerator {
                             <button onclick="checkGame1()" class="btn">Dene</button>
                         </div>
                         <small id="game1Msg" class="msg-box"></small>
-                        <button class="toggle-code-btn" onclick="toggleCode('code1')">Algoritma ve Kodu İncele ⏷</button>
-                        <div id="code1" class="hidden-code">
-                            <p class="algo-text"><strong>Algoritma (Dinamik Kontrol):</strong> Fibonacci dizisinin temel prensibi olan F(n) = F(n-1) + F(n-2) bağıntısı kullanılır. Dizinin sondan birinci ve ikinci elemanı toplanarak beklenen eksik eleman elde edilir. O(1) zaman karmaşıklığına sahiptir.</p>
-                            <div class="mac-header"><span class="file-name">MissingNumber.java</span><button class="copy-btn" onclick="copyCode(this, 'c1')">Kopyala</button></div>
-<pre><code id="c1">public boolean checkMissing(int[] arr, int guess) {
-    int expected = arr[arr.length-2] + arr[arr.length-3];
-    return guess == expected;
-}</code></pre>
+                        <div class="algo-explanation">
+                            <h4 style="color:var(--primary); margin-top:20px;">Algoritma Nasıl Çalışır?</h4>
+                            <p><strong>Adım 1:</strong> Sistem, rastgele bir başlangıç noktası seçerek art arda 5 adet Fibonacci sayısı üretir.<br>
+                            <strong>Adım 2:</strong> Dizinin ilk 4 elemanını ekrana yazdırır ve 5. elemanı saklar.<br>
+                            <strong>Adım 3:</strong> Sizden gelen tahmini alır. Fibonacci kuralı gereği, dizinin 5. elemanı, her zaman 3. ve 4. elemanın toplamına eşit olmak zorundadır (F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub>).<br>
+                            <strong>Adım 4:</strong> Eğer girdiğiniz sayı bu toplama eşitse, başarılı sayılırsınız ve döngü yeni sayılarla baştan başlar.</p>
                         </div>
                     </div>
                 </div>
@@ -448,20 +476,18 @@ public class FibonacciGenerator {
                 </div>
                 <div class="acc-body">
                     <div class="acc-inner">
-                        <p class="acc-desc">Bir uzunluk girin, Altın Oran (1.618...) parçasını bulalım. Bütünün büyüye oranı, büyüğün küçüğe oranına eşittir.</p>
+                        <p class="acc-desc">Bir uzunluk girin (örneğin bir çubuğun boyu), onu Altın Oran'a (1.618) göre en estetik iki parçaya bölelim.</p>
                         <div class="input-group">
-                            <input type="number" id="goldenInput" placeholder="Uzunluk (örn: 100)">
+                            <input type="number" id="goldenInput" placeholder="Toplam Uzunluk (örn: 100)">
                             <button onclick="calcGolden()" class="btn">Hesapla</button>
                         </div>
                         <div id="goldenResult" class="result-box">-</div>
-                        <button class="toggle-code-btn" onclick="toggleCode('code2')">Algoritma ve Kodu İncele ⏷</button>
-                        <div id="code2" class="hidden-code">
-                            <p class="algo-text"><strong>Algoritma (Altın Oran Parçalanması):</strong> Matematikte bütünü en estetik oranda bölmek için bütünü 1.618033 değerine böleriz. Bu bize büyük parçayı verir. Toplam uzunluktan büyük parçayı çıkararak da küçük parçayı buluruz.</p>
-                            <div class="mac-header"><span class="file-name">GoldenRatio.java</span><button class="copy-btn" onclick="copyCode(this, 'c2')">Kopyala</button></div>
-<pre><code id="c2">public void calcGoldenRatio(double len) {
-    double bigPart = len / 1.6180339887;
-    double smallPart = len - bigPart;
-}</code></pre>
+                        <div class="algo-explanation">
+                            <h4 style="color:var(--primary); margin-top:20px;">Algoritma Nasıl Çalışır?</h4>
+                            <p><strong>Mantık:</strong> Matematikte bir bütünü en estetik oranda bölmek için "Bütün / Büyük Parça = Büyük Parça / Küçük Parça" kuralı uygulanır ve bu daima 1.618033... (Phi) sayısını verir.<br>
+                            <strong>İşlem 1:</strong> Girdiğiniz toplam uzunluk doğrudan 1.6180339887 sayısına bölünür. Çıkan sonuç "Büyük Parça"nın uzunluğudur.<br>
+                            <strong>İşlem 2:</strong> Toplam uzunluktan, "Büyük Parça" çıkarılır. Kalan miktar "Küçük Parça"nın uzunluğudur.<br>
+                            <strong>Test:</strong> Son olarak algoritma sağlama yapar: Büyük Parçayı, Küçük parçaya böler. Sonuç 1.618 çıkıyorsa hesaplama kusursuzdur.</p>
                         </div>
                     </div>
                 </div>
@@ -477,24 +503,18 @@ public class FibonacciGenerator {
                 </div>
                 <div class="acc-body">
                     <div class="acc-inner">
-                        <p class="acc-desc">Aylara göre üreyen tavşan çifti sayısını simüle edin.</p>
+                        <p class="acc-desc">Fibonacci'nin ünlü sorusu: Her ay yeni bir çift doğuran tavşanların, belirttiğiniz ayın sonundaki toplam çift sayısı ne olur?</p>
                         <div class="input-group">
                             <input type="number" id="rabbitInput" placeholder="Ay (örn: 12)" max="50">
                             <button onclick="calcRabbit()" class="btn">Simüle Et</button>
                         </div>
                         <div id="rabbitResult" class="result-box">-</div>
-                        <button class="toggle-code-btn" onclick="toggleCode('code3')">Algoritma ve Kodu İncele ⏷</button>
-                        <div id="code3" class="hidden-code">
-                            <p class="algo-text"><strong>Algoritma (Dinamik Programlama - Tabulation):</strong> Eğer özyineli (recursive) yöntem kullansaydık hesaplamalar tekrarlanacağı için zaman karmaşıklığı O(2^n) olurdu. Bunun yerine hesaplanan değerler bir <code>dp</code> dizisinde saklanır. Böylece hesaplama O(n) sürede tamamlanır.</p>
-                            <div class="mac-header"><span class="file-name">RabbitPopulation.java</span><button class="copy-btn" onclick="copyCode(this, 'c3')">Kopyala</button></div>
-<pre><code id="c3">public long rabbitPairs(int months) {
-    if (months <= 1) return 1;
-    long[] dp = new long[months + 1];
-    dp[0] = 1; dp[1] = 1;
-    for (int i=2; i<=months; i++) 
-        dp[i] = dp[i-1] + dp[i-2];
-    return dp[months];
-}</code></pre>
+                        <div class="algo-explanation">
+                            <h4 style="color:var(--primary); margin-top:20px;">Algoritma Nasıl Çalışır (Dinamik Programlama)?</h4>
+                            <p>Bu problemi standart özyineleme (kendi kendini çağırma) ile çözmek bilgisayarı dondurabilir çünkü aynı aylar tekrar tekrar hesaplanır. Algoritma bunu önlemek için "Dinamik Programlama - Tablolama" kullanır.<br>
+                            <strong>Tablo Oluşturma:</strong> İstenilen ay sayısında boş bir liste (tablo) açılır. 1. ve 2. aylar 1 olarak doldurulur.<br>
+                            <strong>Döngüsel İlerleme:</strong> 3. aydan itibaren, her ayın tavşan sayısı, listeye kaydedilmiş bir önceki ay ile ondan önceki ayın sayılarının toplanıp yeni kutuya yazılmasıyla bulunur. <br>
+                            <strong>Sonuç:</strong> Hiçbir işlem ikinci kez yapılmaz. O(n) hızında anında sonuç üretilir.</p>
                         </div>
                     </div>
                 </div>
@@ -504,28 +524,25 @@ public class FibonacciGenerator {
                 <div class="acc-header" onclick="toggleAcc(this)">
                     <div style="display:flex; align-items:center; gap:15px;">
                         <span class="acc-num">04</span>
-                        <div><h3 class="acc-title">Borsa Destek Analizi</h3><span class="acc-subtitle">Fibonacci Retracement seviyeleri</span></div>
+                        <div><h3 class="acc-title">Borsa Destek & Direnç Analizi</h3><span class="acc-subtitle">Fibonacci Retracement (Düzeltme) seviyeleri</span></div>
                     </div>
                     <span class="acc-arrow">▼</span>
                 </div>
                 <div class="acc-body">
                     <div class="acc-inner">
-                        <p class="acc-desc">Tepe ve dip fiyatı girerek Fibonacci destek ve dirençlerini bulun.</p>
+                        <p class="acc-desc">Bir hisse senedinin veya kripto paranın tepe ve dip fiyatını girin, olası düşüşlerde fiyatın nereden dönebileceğini (destek seviyelerini) bulalım.</p>
                         <div class="input-group">
-                            <input type="number" id="highPrice" placeholder="Tepe Fiyat">
-                            <input type="number" id="lowPrice" placeholder="Dip Fiyat">
+                            <input type="number" id="highPrice" placeholder="Tepe Fiyatı (Örn: 100)">
+                            <input type="number" id="lowPrice" placeholder="Dip Fiyatı (Örn: 20)">
                             <button onclick="calcFiboLevels()" class="btn">Analiz Et</button>
                         </div>
                         <div id="fiboLevelsResult" class="result-box" style="height: auto; flex-direction: column;">-</div>
-                        <button class="toggle-code-btn" onclick="toggleCode('code4')">Algoritma ve Kodu İncele ⏷</button>
-                        <div id="code4" class="hidden-code">
-                            <p class="algo-text"><strong>Algoritma (Fibonacci Retracement):</strong> Finans piyasalarında fiyat hareketleri doğadaki oranlara benzer tepkiler verir. Tepe ve dip noktası arasındaki fark (Delta) bulunur. Bu fark 0.382 ve 0.618 gibi oranlarla çarpılıp, zirveden çıkartılarak olası destek noktaları belirlenir.</p>
-                            <div class="mac-header"><span class="file-name">StockLevels.java</span><button class="copy-btn" onclick="copyCode(this, 'c4')">Kopyala</button></div>
-<pre><code id="c4">public void fiboLevels(double h, double l) {
-    double diff = h - l;
-    double l38 = h - (diff * 0.382);
-    double l61 = h - (diff * 0.618);
-}</code></pre>
+                        <div class="algo-explanation">
+                            <h4 style="color:var(--primary); margin-top:20px;">Algoritma Nasıl Çalışır?</h4>
+                            <p>Finans piyasalarında kitle psikolojisi doğadaki oranlara (%38.2, %50, %61.8) uyma eğilimindedir. Yatırımcılar düzeltmelerin bu oranlarda biteceğine inanır.<br>
+                            <strong>1. Fark Hesaplama:</strong> Tepe fiyatından, dip fiyatı çıkarılarak "Dalga Boyu (Fark)" bulunur.<br>
+                            <strong>2. Oransal Çarpım:</strong> Bu fark, sırasıyla 0.236, 0.382, 0.500 ve 0.618 Altın Oran türevleriyle çarpılır.<br>
+                            <strong>3. Seviye Tespiti:</strong> Çıkan sonuçlar tepe noktasından tek tek çıkartılarak ekrana yansıtılır. Özellikle %61.8 (Altın Oran) piyasalarda en güçlü destek noktası olarak kabul edilir.</p>
                         </div>
                     </div>
                 </div>
@@ -541,148 +558,26 @@ public class FibonacciGenerator {
                 </div>
                 <div class="acc-body">
                     <div class="acc-inner">
-                        <p class="acc-desc">Metnin her harfini, bulunduğu sıradaki Fibonacci sayısı kadar alfabede kaydırarak şifreleyin ve aynı mantıkla çözün.</p>
+                        <p class="acc-desc">Girdiğiniz kelimenin her harfini, bulunduğu sıradaki Fibonacci sayısı kadar alfabede ileri kaydırarak şifreler.</p>
                         
                         <div class="input-group">
-                            <input type="text" id="cipherInput" placeholder="Şifrelenecek Kelime...">
+                            <input type="text" id="cipherInput" placeholder="Şifrelenecek Kelime (İngilizce karakter)...">
                             <button onclick="encryptText()" class="btn">Şifrele</button>
                         </div>
                         <div id="cipherResult" class="result-box">-</div>
                         
                         <div class="input-group" style="margin-top: 15px;">
-                            <input type="text" id="decipherInput" placeholder="Deşifre edilecek Kelime...">
+                            <input type="text" id="decipherInput" placeholder="Deşifre edilecek şifreli kelime...">
                             <button onclick="decryptText()" class="btn" style="background:var(--accent);">Deşifre Et</button>
                         </div>
                         <div id="decipherResult" class="result-box">-</div>
                         
-                        <button class="toggle-code-btn" onclick="toggleCode('code5')">Algoritma ve Kodu İncele ⏷</button>
-                        <div id="code5" class="hidden-code">
-                            <p class="algo-text"><strong>Algoritma (Dinamik Sezar Şifrelemesi):</strong> Standart şifrelemede her harf sabit bir miktar kaydırılırken, burada kaydırma miktarı (shift key) Fibonacci serisi ile belirlenir. Metnin i. karakteri, alfabede F(i) modulo 26 kadar ilerletilir. Şifre çözülürken aynı işlem tersine (eksi yönlü) yapılır.</p>
-                            <div class="mac-header"><span class="file-name">FiboCipher.java</span><button class="copy-btn" onclick="copyCode(this, 'c5')">Kopyala</button></div>
-<pre><code id="c5">public class FibonacciCipher {
-    // Şifreleme
-    public static String encrypt(String text, int[] fib) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            if (c >= 'A' && c <= 'Z') {
-                int shift = fib[i] % 26;
-                sb.append((char)('A' + (c - 'A' + shift) % 26));
-            } else sb.append(c);
-        }
-        return sb.toString();
-    }
-    
-    // Deşifreleme
-    public static String decrypt(String text, int[] fib) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            if (c >= 'A' && c <= 'Z') {
-                int shift = fib[i] % 26;
-                // Eksi değerleri önlemek için +26 eklenir
-                sb.append((char)('A' + (c - 'A' - shift + 26) % 26));
-            } else sb.append(c);
-        }
-        return sb.toString();
-    }
-}</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="acc-item">
-                <div class="acc-header" onclick="toggleAcc(this)">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <span class="acc-num">06</span>
-                        <div><h3 class="acc-title">Merdiven Tırmanma Kombinasyonları</h3><span class="acc-subtitle">Adım varyasyonlarını hesapla</span></div>
-                    </div>
-                    <span class="acc-arrow">▼</span>
-                </div>
-                <div class="acc-body">
-                    <div class="acc-inner">
-                        <p class="acc-desc">N basamaklı merdiveni 1 veya 2 adım atarak kaç farklı şekilde çıkarsınız?</p>
-                        <div class="input-group">
-                            <input type="number" id="stairsInput" placeholder="Basamak (N)">
-                            <button onclick="calcStairs()" class="btn">Hesapla</button>
-                        </div>
-                        <div id="stairsResult" class="result-box">-</div>
-                        <button class="toggle-code-btn" onclick="toggleCode('code6')">Algoritma ve Kodu İncele ⏷</button>
-                        <div id="code6" class="hidden-code">
-                            <p class="algo-text"><strong>Algoritma (Kombinatoryal Fibonacci):</strong> N. basamağa ancak (N-1). veya (N-2). basamaktan adım atılabilir. Bu yüzden N basamağa ulaşım yollarının sayısı, önceki iki basamağa ulaşım yollarının toplamıdır. Bu, direkt olarak Fibonacci serisinin tanımıdır.</p>
-                            <div class="mac-header"><span class="file-name">ClimbingStairs.java</span><button class="copy-btn" onclick="copyCode(this, 'c6')">Kopyala</button></div>
-<pre><code id="c6">public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int a=1, b=2;
-    for (int i=3; i<=n; i++) {
-        int temp = a+b; a=b; b=temp;
-    } return b;
-}</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="acc-item">
-                <div class="acc-header" onclick="toggleAcc(this)">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <span class="acc-num">07</span>
-                        <div><h3 class="acc-title">Zeckendorf Teoremi Ayrıştırması</h3><span class="acc-subtitle">Ardışık olmayan Fibonacci toplamları</span></div>
-                    </div>
-                    <span class="acc-arrow">▼</span>
-                </div>
-                <div class="acc-body">
-                    <div class="acc-inner">
-                        <p class="acc-desc">Girilen pozitif sayıyı, ardışık olmayan Fibonacci sayılarının toplamı olarak yazın.</p>
-                        <div class="input-group">
-                            <input type="number" id="zeckInput" placeholder="Sayı (örn: 100)">
-                            <button onclick="calcZeckendorf()" class="btn">Parçala</button>
-                        </div>
-                        <div id="zeckResult" class="result-box">-</div>
-                        <button class="toggle-code-btn" onclick="toggleCode('code7')">Algoritma ve Kodu İncele ⏷</button>
-                        <div id="code7" class="hidden-code">
-                            <p class="algo-text"><strong>Algoritma (Açgözlü / Greedy Yaklaşımı):</strong> Zeckendorf Teoremi'ne göre her pozitif tamsayı, ardışık olmayan Fibonacci sayılarının toplamı şeklinde yazılabilir. Algoritma, sayıdan küçük en büyük Fibonacci değerini bulup sayıdan çıkarır ve sayı sıfırlanana kadar bu döngüyü sürdürür.</p>
-                            <div class="mac-header"><span class="file-name">Zeckendorf.java</span><button class="copy-btn" onclick="copyCode(this, 'c7')">Kopyala</button></div>
-<pre><code id="c7">public void zeckendorf(int n, int[] f) {
-    while (n > 0) {
-        int max = findMaxFibo(n, f);
-        System.out.print(max + " ");
-        n -= max;
-    }
-}</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="acc-item">
-                <div class="acc-header" onclick="toggleAcc(this)">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <span class="acc-num">08</span>
-                        <div><h3 class="acc-title">Pisano Periyodu Hesaplayıcı</h3><span class="acc-subtitle">Modulo aritmetiğinde tekrar analizi</span></div>
-                    </div>
-                    <span class="acc-arrow">▼</span>
-                </div>
-                <div class="acc-body">
-                    <div class="acc-inner">
-                        <p class="acc-desc">Dizinin, girdiğiniz Modulo(M) değerine bölümünden kalanların periyot uzunluğunu bulun.</p>
-                        <div class="input-group">
-                            <input type="number" id="pisanoInput" placeholder="Modulo değeri (M > 1)">
-                            <button onclick="calcPisano()" class="btn">Bul</button>
-                        </div>
-                        <div id="pisanoResult" class="result-box">-</div>
-                        <button class="toggle-code-btn" onclick="toggleCode('code8')">Algoritma ve Kodu İncele ⏷</button>
-                        <div id="code8" class="hidden-code">
-                            <p class="algo-text"><strong>Algoritma (Modüler Aritmetik Döngüsü):</strong> Modulo m işleminde kalan değerler sınırlıdır. Fibonacci dizisi (0, 1) ile başladığı için, modulo işleminde peş peşe yeniden (0, 1) sekansı görüldüğünde periyot tamamlanmış olur. Bu döngü uzunluğuna Pisano Periyodu denir.</p>
-                            <div class="mac-header"><span class="file-name">PisanoPeriod.java</span><button class="copy-btn" onclick="copyCode(this, 'c8')">Kopyala</button></div>
-<pre><code id="c8">public int pisanoPeriod(int m) {
-    int p=0, c=1, res=0;
-    for (int i=0; i<m*m; i++) {
-        int t = (p+c)%m; p=c; c=t;
-        if (p==0 && c==1) return i+1;
-    } return 0;
-}</code></pre>
+                        <div class="algo-explanation">
+                            <h4 style="color:var(--primary); margin-top:20px;">Algoritma Nasıl Çalışır (Dinamik Kaydırma)?</h4>
+                            <p>Roma imparatoru Sezar şifrelemesinde her harf sabit bir sayı (örn: 3) kadar kaydırılırdı. Bu çok kolay çözülür. Bizim algoritmamız ise değişken şifre (dinamik anahtar) kullanır.<br>
+                            <strong>1. Anahtar Üretimi:</strong> Kelimenin uzunluğu kadar Fibonacci sayısı üretilir (Örn: "ALI" için 1, 2, 3 üretilir).<br>
+                            <strong>2. Şifreleme (İleri):</strong> 1. harf alfabede 1 adım ileri, 2. harf 2 adım ileri, 3. harf 3 adım ileri kaydırılır. Eğer harf 'Z'yi geçerse Modulo 26 matematiği ile başa 'A' harfine döner.<br>
+                            <strong>3. Deşifre (Geri):</strong> Çözülürken aynı işlem tersine yapılır. Karakterler ilgili sıradaki Fibonacci sayısı kadar geriye kaydırılır.</p>
                         </div>
                     </div>
                 </div>
@@ -691,78 +586,45 @@ public class FibonacciGenerator {
         </div>
     </section>
 
+    <!-- EVRENİN KODU -->
     <section id="evrenin-kodu">
         <h2 class="reveal">🌌 Evrenin Kodunu Keşfet</h2>
-        <p class="section-desc reveal">Fibonacci dizisinin sanat, müzik, doğa ve karmaşıklık teorisindeki yansımaları.</p>
-
-        <div class="content-box wide-box reveal" style="margin-bottom: 2.5rem;">
-            <div class="feature-header">
-                <span class="feature-badge">🕐 Saat</span>
-                <h3>Fibonacci Saati</h3>
-                <p>Saatin her hanesi, o Fibonacci teriminin kaçıncı olduğunu gösterir. Gerçek zamanlı güncellenir.</p>
-            </div>
-            <div id="fiboClock" class="fibo-clock-container">
-                <div class="clock-panel">
-                    <div class="clock-digit-group">
-                        <div class="clock-label">SAAT</div>
-                        <div class="clock-digits" id="clockHour">--</div>
-                    </div>
-                    <div class="clock-sep">:</div>
-                    <div class="clock-digit-group">
-                        <div class="clock-label">DAKİKA</div>
-                        <div class="clock-digits" id="clockMin">--</div>
-                    </div>
-                    <div class="clock-sep">:</div>
-                    <div class="clock-digit-group">
-                        <div class="clock-label">SANİYE</div>
-                        <div class="clock-digits" id="clockSec">--</div>
-                    </div>
-                </div>
-                <div class="clock-info-panel">
-                    <div id="clockFiboInfo" class="clock-fibo-info">Fibonacci bağlantısı hesaplanıyor...</div>
-                    <div class="clock-legend">
-                        <span class="legend-item"><span class="legend-dot" style="background:#10b981"></span> Fibonacci sayısı</span>
-                        <span class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span> Normal sayı</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <p class="section-desc reveal">Fibonacci dizisinin doğadaki, fizikteki ve müzikteki kusursuz yansımaları.</p>
 
         <div class="content-box wide-box reveal" style="margin-bottom: 2.5rem;">
             <div class="feature-header">
                 <span class="feature-badge">🌀 Altın Spiral</span>
                 <h3>Canlı Fibonacci Sarmalı</h3>
-                <p>Matematiksel olarak doğru Fibonacci dikdörtgenleri ve içbükey sarmal animasyonu.</p>
+                <p>Kusursuz sarmal animasyonu. Fibonacci karelerinin içinden geçerek büyüyen ve altın orana (Phi) evrilen logaritmik çizim.</p>
             </div>
             <div class="spiral-section">
                 <div class="spiral-controls">
-                    <label>Terim Sayısı: <strong id="spiralTermLabel">8</strong></label>
-                    <input type="range" id="spiralRange" min="3" max="12" value="8" oninput="updateSpiral(this.value)">
-                    <label>Hız: <strong id="spiralSpeedLabel">Orta</strong></label>
-                    <input type="range" id="spiralSpeed" min="1" max="5" value="3" oninput="updateSpiralSpeed(this.value)">
+                    <label>Çizilecek Terim Sayısı: <strong id="spiralTermLabel">8</strong></label>
+                    <input type="range" id="spiralRange" min="3" max="14" value="8" oninput="updateSpiral(this.value)">
                     <button class="btn" onclick="toggleSpiralAnim()" id="spiralBtn">⏸ Durdur</button>
-                    <button class="btn btn-outline" onclick="resetSpiral()">↺ Sıfırla</button>
+                    <button class="btn btn-outline" onclick="resetSpiral()">↺ Baştan Çiz</button>
+                    <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 15px;">Sarmal, karelerin çeyrek daire yaylarının kusursuz şekilde birleşmesiyle oluşur.</p>
                 </div>
                 <div class="canvas-wrapper">
-                    <canvas id="fibSpiral" width="600" height="450"></canvas>
+                    <canvas id="fibSpiral" width="700" height="500"></canvas>
                 </div>
             </div>
         </div>
 
         <div class="content-box wide-box reveal" style="margin-bottom: 2.5rem;">
-            <div class="feature-header">
+            <div class="feature-header" style="text-align: center;">
                 <span class="feature-badge">🎵 Frekans</span>
                 <h3>Fibonacci Müzik Üreteci</h3>
                 <p>Her Fibonacci sayısını bir nota frekansına dönüştürün. Doğanın matematiği müziğe dönüşsün.</p>
             </div>
-            <div class="music-panel">
+            <div class="music-panel centered">
                 <div class="music-controls">
                     <div class="input-group">
                         <input type="number" id="musicTerms" min="3" max="16" value="8" placeholder="Terim (3-16)">
                         <select id="musicScale" class="music-select">
-                            <option value="pentatonic">Pentatonik</option>
-                            <option value="major">Majör</option>
-                            <option value="minor">Minör</option>
+                            <option value="pentatonic">Pentatonik Dizi</option>
+                            <option value="major">Majör Dizi</option>
+                            <option value="minor">Minör Dizi</option>
                         </select>
                     </div>
                     <div style="display:flex;gap:10px;margin-top:10px;">
@@ -773,56 +635,16 @@ public class FibonacciGenerator {
                         <div class="music-bars" id="musicBars"></div>
                     </div>
                     <div id="musicInfo" class="music-info">Çalmak için butona basın...</div>
-                </div>
-                <div class="music-code-panel">
-                    <div class="mac-window">
-                        <div class="mac-header">
-                            <div style="display:flex;gap:8px;"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-                            <span class="file-name">FiboMusic.js</span>
-                            <button class="copy-btn" onclick="copyCode(this,'musicCode')">Kopyala</button>
-                        </div>
-<pre><code id="musicCode">const ctx = new AudioContext();
 
-function fiboToFreq(fiboNum, scale) {
-  const baseFreq = 220; // A3 = 220 Hz
-  const noteIndex = fiboNum % scale.length;
-  return baseFreq * scale[noteIndex];
-}
-
-function playNote(freq, time, dur) {
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.frequency.value = freq;
-  gain.gain.setValueAtTime(0.3, time);
-  gain.gain.exponentialRampToValueAtTime(0.001, time + dur);
-  osc.start(time);
-  osc.stop(time + dur + 0.1);
-}</code></pre>
+                    <div class="music-algo-desc">
+                        <h4>Algoritma Nasıl Çalışır?</h4>
+                        <p>
+                            1. <strong>Frekans Dönüşümü:</strong> Üretilen her Fibonacci sayısı (F<sub>n</sub>), seçtiğiniz müzikal dizideki (Pentatonik, Majör veya Minör) belirli bir notanın indeksine (modulo işlemi ile) karşılık gelir.<br>
+                            2. <strong>Oktav Hesaplama:</strong> Sayı, dizinin uzunluğuna bölündüğünde elde edilen bölüm, notanın hangi oktavda (frekans katında) çalınacağını belirler.<br>
+                            3. <strong>Ses Sentezi:</strong> Tarayıcıdaki Web Audio API kullanılarak, hesaplanan tam frekansta (Hz) sinüs dalgaları (sine wave) üretilir ve yumuşak bir zarf (envelope) filtresi ile çalınır.
+                        </p>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="content-box wide-box reveal" style="margin-bottom: 2.5rem;">
-            <div class="feature-header">
-                <span class="feature-badge">📊 Analiz</span>
-                <h3>Algoritma Karmaşıklığı Karşılaştırması</h3>
-                <p>Yinelemeli O(2^n), Döngüsel O(n) ve Matris O(log n) yöntemlerinin işlem sayısını karşılaştırın.</p>
-            </div>
-            <div class="complexity-section">
-                <div class="complexity-controls">
-                    <label>N değeri: <strong id="complexNLabel">20</strong></label>
-                    <input type="range" id="complexN" min="1" max="35" value="20" oninput="updateComplexity(this.value)">
-                    <div class="complexity-legend">
-                        <span><span class="clegend" style="background:#ef4444"></span> Yinelemeli O(2^n)</span>
-                        <span><span class="clegend" style="background:#3b82f6"></span> Döngüsel O(n)</span>
-                        <span><span class="clegend" style="background:#10b981"></span> Matris O(log n)</span>
-                    </div>
-                </div>
-                <canvas id="complexityChart" width="700" height="300" style="max-width:100%; height:auto;"></canvas>
-                <div id="complexityTable" class="complexity-table"></div>
             </div>
         </div>
 
@@ -873,23 +695,26 @@ function playNote(freq, time, dur) {
             <div id="natureDetail" class="nature-detail-box" style="display:none;"></div>
         </div>
 
+        <!-- 10 SORULUK ELİT TEST -->
         <div class="content-box wide-box reveal">
-            <div class="feature-header">
-                <span class="feature-badge">🎯 Yarışma</span>
-                <h3>Fibonacci Bilgi Testi</h3>
-                <p>10 soruluk çoktan seçmeli quiz. Puanınızı görün!</p>
+            <div class="feature-header" style="text-align: center;">
+                <span class="feature-badge" style="background: linear-gradient(135deg, #10b981, #3b82f6);">🎯 Bilgi Yarışması</span>
+                <h3>Fibonacci Uzmanlık Testi</h3>
+                <p>Nümerik analiz ve tarihçe bilginizi sınayacak 10 soruluk elit quiz.</p>
             </div>
             <div id="quizContainer" class="quiz-container">
                 <div class="quiz-progress">
                     <div class="quiz-progress-bar" id="quizProgressBar"></div>
-                    <span id="quizProgressText">Soru 1/10</span>
                 </div>
+                <span id="quizProgressText" style="display: block; text-align: right; margin-bottom: 15px; font-weight: bold; color: var(--primary);">Soru 1/10</span>
+                
                 <div id="quizQuestion" class="quiz-question">Başlamak için butona tıklayın.</div>
                 <div id="quizOptions" class="quiz-options"></div>
                 <div id="quizFeedback" class="quiz-feedback"></div>
-                <div class="quiz-actions">
-                    <button id="quizStartBtn" class="btn" onclick="startQuiz()" style="width:100%;">🚀 Yarışmayı Başlat</button>
-                    <button id="quizNextBtn" class="btn" style="display:none; width:100%;" onclick="nextQuestion()">Sonraki →</button>
+                
+                <div class="quiz-actions" style="margin-top: 15px;">
+                    <button id="quizStartBtn" class="btn" onclick="startQuiz()" style="width:100%; font-size: 1.1rem; padding: 15px;">🚀 Yarışmayı Başlat</button>
+                    <button id="quizNextBtn" class="btn" style="display:none; width:100%; background: var(--primary-dark);" onclick="nextQuestion()">Sonraki Soru →</button>
                 </div>
                 <div id="quizScore" class="quiz-score" style="display:none;"></div>
             </div>
@@ -900,12 +725,10 @@ function playNote(freq, time, dur) {
         <h2 class="reveal">Sıkça Sorulan Sorular</h2>
         <div class="content-box faq-container reveal">
             <div class="faq-item"><h4>1. Fibonacci dizisi tam olarak nedir?</h4><p>İlk iki terimi 0 ve 1 olan, sonraki her terimin kendinden önceki iki terimin toplamıyla elde edildiği sayı dizisidir.</p></div>
-            <div class="faq-item"><h4>2. Java'da 1000. terim için neden BigInteger şarttır?</h4><p>Standart "long" değişkeni maksimum 93. Fibonacci terimini alabilir. 1000. terim ise 209 basamaklıdır, özel kütüphane gerektirir.</p></div>
-            <div class="faq-item"><h4>3. Nümerik Analiz derslerinde neden öğretilir?</h4><p>Farklı algoritma tasarımlarının (Yinelemeli vs. Dinamik Döngüsel) işlemciyi ve belleği nasıl etkilediğini gösteren laboratuvar örneğidir.</p></div>
-            <div class="faq-item"><h4>4. Altın Oran ile Fibonacci dizisi nasıl ilişkilidir?</h4><p>Ardışık iki Fibonacci sayısının oranı (F(n)/F(n-1)), n büyüdükçe Altın Oran'a (yaklaşık 1.6180339887) yakınsar. Bu yakınsama, dizinin en büyüleyici özelliklerinden biridir.</p></div>
-            <div class="faq-item"><h4>5. Pisano Periyodu ne işe yarar?</h4><p>Büyük Fibonacci sayılarını modüler aritmetikle hesaplarken periyodan faydalanılır. Kriptografi ve bilgisayar bilimlerinde önemli uygulamaları vardır.</p></div>
-            <div class="faq-item"><h4>6. Fibonacci Search'ün avantajı nedir?</h4><p>İkili arama bölme işlemi kullanırken, Fibonacci Search sadece toplama ve çıkarma kullanır. Donanım seviyesinde çok daha az enerji tüketir ve hızlı çalışır.</p></div>
-            <div class="faq-item"><h4>7. Doğada bu dizi nerelerde görülür?</h4><p>Ayçiçeği çekirdeklerinin diziliminde, çam kozalaklarında, ananas kabuklarında, DNA sarmalında ve sarmal galaksilerin yapısında kusursuzca görülür.</p></div>
+            <div class="faq-item"><h4>2. Nümerik Analiz derslerinde neden öğretilir?</h4><p>Farklı algoritma tasarımlarının (Yinelemeli vs. Dinamik Döngüsel) işlemciyi ve belleği nasıl etkilediğini gösteren laboratuvar örneğidir.</p></div>
+            <div class="faq-item"><h4>3. Altın Oran ile Fibonacci dizisi nasıl ilişkilidir?</h4><p>Ardışık iki Fibonacci sayısının oranı (F(n)/F(n-1)), n büyüdükçe Altın Oran'a (yaklaşık 1.6180339887) yakınsar. Bu yakınsama, dizinin en büyüleyici özelliklerinden biridir.</p></div>
+            <div class="faq-item"><h4>4. Fibonacci Search'ün avantajı nedir?</h4><p>Doğrusal (Linear) arama her elemanı tek tek kontrol ederken, Fibonacci Search diziyi altın orana göre böler ve atlayarak ilerler. Büyük verilerde muazzam bir hız kazancı sağlar.</p></div>
+            <div class="faq-item"><h4>5. Doğada bu dizi nerelerde görülür?</h4><p>Ayçiçeği çekirdeklerinin diziliminde, çam kozalaklarında, ananas kabuklarında, DNA sarmalında ve sarmal galaksilerin yapısında kusursuzca görülür.</p></div>
         </div>
     </section>
 
@@ -916,9 +739,7 @@ function playNote(freq, time, dur) {
                 <li><strong>Cormen, T. H. et al. (2009).</strong> <em>Introduction to Algorithms.</em> MIT Press.</li>
                 <li><strong>Burden, R. L. (2010).</strong> <em>Numerical Analysis.</em> Brooks/Cole.</li>
                 <li><strong>Livio, M. (2002).</strong> <em>The Golden Ratio: The Story of Phi.</em> Broadway Books.</li>
-                <li><strong>Google Gemini & Anthropic Claude.</strong> <em>Yapay Zeka Destekli Kodlama ve Algoritma Optimizasyonu.</em> AI Models.</li>
                 <li><strong>Wikipedia (TR).</strong> <em>Fibonacci Dizisi ve Altın Oran.</em> tr.wikipedia.org</li>
-                <li><strong>Matematik Dünyası (TR).</strong> <em>Doğanın Matematiği: Altın Oran.</em> matematikdunyasi.org</li>
                 <li><strong>BilgisayarKavramlari.com.</strong> <em>Fibonacci Arama Algoritması ve Karmaşıklık.</em></li>
             </ul>
         </div>
@@ -926,7 +747,7 @@ function playNote(freq, time, dur) {
 
     <footer>
         <p>Bilgisayar Mühendisliği Nümerik Analiz & Algoritma Projesi | 2026</p>
-        <p style="margin-top:8px;font-size:0.85rem;">Pascal Üçgeni · Saat · Altın Spiral · Müzik Üreteci · Karmaşıklık Grafiği</p>
+        <p style="margin-top:8px;font-size:0.85rem;">Pascal Üçgeni · Arama Performansı · Altın Spiral · Müzik Üreteci</p>
     </footer>
 
     <button id="bttBtn" class="back-to-top" title="Yukarı Çık">↑</button>

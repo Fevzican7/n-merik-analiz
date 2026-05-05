@@ -12,6 +12,7 @@
     --border-color: #e2e8f0;
     --code-bg: #0f172a;
     --code-text: #e2e8f0;
+    --invert-img: 0;
 }
 
 /* Karanlık Mod */
@@ -27,6 +28,7 @@
     --border-color: #1e293b;
     --code-bg: #020617;
     --code-text: #f8fafc;
+    --invert-img: 1; /* Formül resimlerini karanlıkta beyaz yapar */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -165,8 +167,36 @@ section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 1.5rem; font-
 .bio-text p { margin-bottom: 15px; text-align: justify;}
 .bio-img { width: 100%; border-radius: 16px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color);}
 
-/* Java ve Beyaz Tahta Layout */
-.java-split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: stretch;}
+/* Formül Stilleri */
+.formula-box {
+    background: var(--bg-main);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+.formula-title {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-size: 0.95rem;
+}
+.math-img {
+    filter: invert(var(--invert-img));
+    max-height: 28px;
+}
+
+/* Java ve Beyaz Tahta Layout (YENİ DÜZEN) */
+.java-split { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; /* Mükemmel yan yana dağılım */
+    gap: 2rem; 
+    align-items: start;
+}
+.split-left { display: flex; flex-direction: column; gap: 20px; }
+.split-right { height: 100%; }
+.h-full { height: 100%; display: flex; flex-direction: column; }
 
 /* Beyaz Tahta */
 .whiteboard-container {
@@ -198,7 +228,7 @@ section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 1.5rem; font-
 .array-block.prime { background: #f59e0b; border: 2px solid #d97706; }
 @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-/* YENİ: Pascal Piramidi Görselleri */
+/* Pascal Piramidi Görselleri */
 .pascal-pyramid {
     background: var(--bg-main); border: 1px dashed var(--border-color); border-radius: 8px;
     padding: 20px; margin-top: 15px; min-height: 200px; display: flex; flex-direction: column;
@@ -214,12 +244,6 @@ section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 1.5rem; font-
 }
 .pascal-block.edge { background: var(--accent); }
 
-/* 10 Adım Listesi */
-.ten-step-container { background: var(--bg-main); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center;}
-.step-list { padding-left: 20px; margin: 0;}
-.step-list li { margin-bottom: 10px; font-size: 0.95rem; color: var(--text-main); }
-.step-list li strong { color: var(--primary); }
-
 /* Mac Penceresi Kodu */
 .mac-window { background: var(--code-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid #334155;}
 .mac-header { background: #1e293b; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155;}
@@ -234,37 +258,35 @@ section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 1.5rem; font-
 }
 .copy-btn:hover { background: var(--primary); border-color: var(--primary); color: white;}
 
-/* Kod Satır Kırma Eklendi */
 .mac-window pre, .hidden-code pre { 
     padding: 20px; margin: 0; overflow-x: auto; flex-grow: 1; 
-    white-space: pre-wrap; word-break: break-all; /* Mobil Kaymayı Engeller */
+    white-space: pre-wrap; word-break: break-all;
 }
 .mac-window code, .hidden-code code { font-family: 'Fira Code', monospace; font-size: 0.95rem; color: var(--code-text); line-height: 1.5;}
+
+/* YENİ: Yorum Satırı Renklendirmesi */
+.code-comment { color: #10b981; font-style: italic; }
+.dark-theme .code-comment { color: #34d399; }
 
 .algo-text { padding: 15px 20px; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); border-bottom: 1px solid var(--border-color); margin: 0;}
 
 /* Simülasyon Panelleri */
-.sim-panel { display: flex; flex-direction: column;}
+.sim-panel { display: flex; flex-direction: column; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; box-shadow: var(--card-shadow); }
 .sim-header { font-size: 1.2rem; font-weight: bold; color: var(--primary); margin-bottom: 15px;}
 .input-group { display: flex; gap:10px; }
 .input-group input, .music-select { flex:1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-size: 1rem; width: 100%; font-family: inherit;}
 .input-group input:focus, .music-select:focus { outline: none; border-color: var(--primary); }
-textarea {
-    width: 100%; flex-grow:1; min-height: 120px; padding: 15px; border-radius: 8px; margin-top: 15px;
-    background: var(--code-bg); color: var(--code-text); font-family: 'Fira Code', monospace;
-    border: 1px solid var(--border-color); resize: none; font-size: 0.95rem; line-height: 1.5;
-}
 
 /* Fibonacci Search Box ve Logları */
 .fs-array-visual { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
-.fs-box { background: var(--bg-secondary); border: 2px solid var(--border-color); color: var(--text-main); font-weight: bold; padding: 10px 15px; border-radius: 6px; transition: 0.3s; }
-.fs-box.active { background: var(--accent); color: white; border-color: var(--primary-dark); transform: scale(1.1); }
-.fs-box.eliminated { opacity: 0.25; text-decoration: line-through; }
-.fs-box.found { background: #10b981; color: white; border-color: #047857; transform: scale(1.1); box-shadow: 0 0 10px rgba(16,185,129,0.5); }
-.fs-log-box { font-family: 'Fira Code', monospace; font-size: 0.85rem; background: var(--code-bg); color: var(--code-text); padding: 10px; border-radius: 6px; margin-top: 15px; height: 120px; overflow-y: auto; }
-.fs-demo-panel { background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border-color); padding: 15px; margin-top: 15px; }
+.fs-box { background: var(--bg-main); border: 2px solid var(--border-color); color: var(--text-main); font-weight: bold; padding: 10px 15px; border-radius: 6px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.fs-box.active { background: #3b82f6; color: white; border-color: #2563eb; transform: scale(1.15); box-shadow: 0 0 15px rgba(59,130,246,0.6); z-index: 10; }
+.fs-box.eliminated { opacity: 0.15; transform: scale(0.9); text-decoration: line-through; }
+.fs-box.found { background: #10b981; color: white; border-color: #047857; transform: scale(1.2); box-shadow: 0 0 20px rgba(16,185,129,0.8); z-index: 20; }
+.fs-log-box { font-family: 'Fira Code', monospace; font-size: 0.85rem; background: var(--code-bg); color: var(--code-text); padding: 15px; border-radius: 8px; margin-top: 15px; height: 140px; overflow-y: auto; border: 1px solid var(--border-color); }
+.fs-demo-panel { display: flex; flex-direction: column;}
 
-/* AKORDEON: 8 Deney */
+/* AKORDEON: Deneyler */
 .experiments-accordion-container { display: flex; flex-direction: column; gap: 15px; max-width: 900px; margin: 0 auto; }
 .acc-item { background: var(--bg-secondary); border-radius: 12px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color); overflow: hidden; transition: all 0.3s ease; }
 .acc-header { padding: 20px 25px; width: 100%; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: var(--bg-secondary); border: none; text-align: left; }
@@ -286,73 +308,73 @@ textarea {
 .result-box { margin-top: 15px; padding: 12px; background: var(--bg-main); border-radius: 6px; font-weight: 600; text-align: center; min-height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
 .msg-box { display: flex; justify-content: center; align-items: center; margin-top: 10px; font-weight: bold; min-height: 24px; }
 
-.toggle-code-btn {
-    width: calc(100% - 50px); padding: 10px; margin: 20px 25px 0 25px; background: var(--bg-main);
-    color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px;
-    font-weight: 600; cursor: pointer; transition: 0.3s;
+/* Algoritma Metin Açıklamaları İçin */
+.algo-explanation {
+    background: var(--bg-main); border: 1px solid var(--border-color);
+    padding: 15px 25px; border-radius: 8px; margin-top: 20px;
 }
-.toggle-code-btn:hover { background: var(--border-color); color: var(--primary); }
-.hidden-code { display: none; margin: 15px 25px 25px 25px; border: 1px solid #334155; border-radius: 8px; overflow: hidden;}
-.hidden-code pre { background: var(--code-bg); color: var(--code-text); padding: 15px; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 0.85rem; margin:0; }
+.algo-explanation p { font-size: 0.95rem; color: var(--text-main); line-height: 1.6; margin-bottom: 8px;}
 
-.input-group { padding: 0 25px; }
-.result-box { margin: 15px 25px 0 25px;}
-
-
-/* Elit Özellikler (Saat, Müzik, Çizelge vs.) */
-.feature-header { margin-bottom: 1.5rem; }
-.feature-header h3 { font-size: 1.6rem; font-family: 'Playfair Display', serif; color: var(--text-main); margin: 8px 0 6px 0; }
-.feature-header p { color: var(--text-light); font-size: 0.95rem; }
-.feature-badge {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
-    display: inline-block;
+/* Sabitlenmiş Fibonacci Saati */
+.floating-clock {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px;
+    z-index: 900;
+    box-shadow: var(--card-shadow);
+    transform: scale(0.65);
+    transform-origin: bottom left;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: opacity 0.3s;
 }
-
-/* Fibonacci Saati */
-.fibo-clock-container { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; background: var(--bg-main); border-radius: 16px; padding: 2rem; border: 1px solid var(--border-color); }
-.clock-panel { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.clock-panel { display: flex; align-items: center; gap: 6px; justify-content: center; }
 .clock-digit-group { text-align: center; }
-.clock-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; color: var(--text-light); text-transform: uppercase; margin-bottom: 6px; }
+.clock-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; color: var(--text-light); text-transform: uppercase; margin-bottom: 4px; }
 .clock-digits {
-    font-family: 'Fira Code', monospace; font-size: 3.5rem; font-weight: 700;
-    color: var(--primary); min-width: 100px; line-height: 1; padding: 10px 15px; background: var(--bg-secondary);
-    border-radius: 12px; border: 2px solid var(--border-color); transition: color 0.3s, border-color 0.3s;
+    font-family: 'Fira Code', monospace; font-size: 3rem; font-weight: 700;
+    color: var(--primary); min-width: 70px; line-height: 1; padding: 8px 12px; background: var(--bg-secondary);
+    border-radius: 8px; border: 2px solid var(--border-color); transition: color 0.3s, border-color 0.3s;
 }
-.clock-digits.fibo { color: #10b981; border-color: #10b981; box-shadow: 0 0 20px rgba(16,185,129,0.2); }
-.clock-sep { font-size: 3rem; font-weight: 700; color: var(--text-light); animation: blink 1s infinite; }
+.clock-digits.fibo { color: #10b981; border-color: #10b981; box-shadow: 0 0 15px rgba(16,185,129,0.2); }
+.clock-sep { font-size: 2.5rem; font-weight: 700; color: var(--text-light); animation: blink 1s infinite; }
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
-.clock-info-panel { flex: 1; min-width: 200px; }
-.clock-fibo-info { background: var(--bg-secondary); border-radius: 10px; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 10px; font-size: 0.9rem; color: var(--text-main); line-height: 1.6; }
-.clock-legend { display: flex; gap: 15px; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-light); }
-.legend-item { display: flex; align-items: center; gap: 6px; }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.clock-fibo-info { text-align: center; font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
 
 /* Fibonacci Sarmalı Canvas */
-.spiral-section { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
+.spiral-section { display: grid; grid-template-columns: 260px 1fr; gap: 2rem; align-items: start; }
 .spiral-controls { display: flex; flex-direction: column; gap: 15px; background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); }
 .spiral-controls label { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
 .spiral-controls input[type=range] { width: 100%; accent-color: var(--primary); }
 .canvas-wrapper { background: var(--bg-main); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; padding: 10px; }
 #fibSpiral { max-width: 100%; height: auto; }
 
-/* Müzik Üreteci */
-.music-panel { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; align-items: start; }
-.music-controls { background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); }
+/* Müzik Üreteci - Ortalanmış Panel */
+.music-panel.centered { display: flex; flex-direction: column; align-items: center; max-width: 650px; margin: 0 auto; }
+.music-controls { width: 100%; background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); }
 .music-visualizer { margin-top: 15px; background: var(--code-bg); border-radius: 8px; padding: 15px; min-height: 80px; display: flex; align-items: flex-end; border: 1px solid var(--border-color); overflow: hidden; }
 .music-bars { display: flex; gap: 6px; align-items: flex-end; width: 100%; height: 60px; }
 .music-bar { flex: 1; background: var(--primary); border-radius: 4px 4px 0 0; min-height: 4px; transition: height 0.15s ease; }
 .music-bar.active { background: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.5); }
-.music-info { margin-top: 10px; font-size: 0.85rem; color: var(--text-light); font-family: 'Fira Code', monospace; }
+.music-info { margin-top: 10px; font-size: 0.85rem; color: var(--text-light); font-family: 'Fira Code', monospace; text-align: center;}
+.music-algo-desc { margin-top: 20px; text-align: left; background: var(--bg-secondary); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
+.music-algo-desc h4 { color: var(--primary); margin-bottom: 8px; font-size: 1.1rem; }
+.music-algo-desc p { font-size: 0.9rem; color: var(--text-main); line-height: 1.6; }
 
-/* Karmaşıklık Grafiği */
+/* Karmaşıklık Grafiği (Linear vs Fibo) */
 .complexity-controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .complexity-controls label { font-weight: 600; }
 .complexity-controls input[type=range] { width: 300px; accent-color: var(--primary); }
 .complexity-legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 5px; font-size: 0.9rem; }
 .clegend { display: inline-block; width: 14px; height: 14px; border-radius: 3px; margin-right: 5px; vertical-align: middle; }
 #complexityChart { background: var(--bg-main); border-radius: 12px; border: 1px solid var(--border-color); max-width: 100%; }
-.complexity-table { margin-top: 15px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.complexity-table { margin-top: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .comp-cell { background: var(--bg-main); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid var(--border-color); }
 .comp-cell .comp-name { font-size: 0.75rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
 .comp-cell .comp-val { font-size: 1.1rem; font-weight: 700; font-family: 'Fira Code', monospace; }
@@ -368,23 +390,24 @@ textarea {
 .nature-numbers span { background: var(--primary); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; font-family: 'Fira Code', monospace; }
 .nature-detail-box { background: var(--bg-main); border-radius: 12px; padding: 20px; border-left: 4px solid var(--primary); animation: fadeIn 0.4s ease; }
 
-/* Bilgi Yarışması */
-.quiz-progress { height: 8px; background: var(--bg-main); border-radius: 4px; overflow: hidden; margin-bottom: 10px; position: relative; border: 1px solid var(--border-color); }
-.quiz-progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.5s ease; border-radius: 4px; }
-#quizProgressText { font-size: 0.8rem; color: var(--text-light); display: block; text-align: right; margin-bottom: 15px; }
-.quiz-question { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; color: var(--text-main); min-height: 50px; line-height: 1.5; }
-.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-.quiz-option { padding: 14px; background: var(--bg-main); border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer; font-weight: 600; text-align: left; transition: all 0.2s; color: var(--text-main); font-size: 0.95rem; }
-.quiz-option:hover { border-color: var(--primary); background: rgba(37,99,235,0.05); }
-.quiz-option.correct { background: rgba(16,185,129,0.1); border-color: #10b981; color: #10b981; }
-.quiz-option.wrong { background: rgba(239,68,68,0.1); border-color: #ef4444; color: #ef4444; }
-.quiz-option:disabled { cursor: not-allowed; }
-.quiz-feedback { min-height: 30px; font-size: 0.95rem; margin-bottom: 10px; font-weight: 600; }
-.quiz-actions { display: flex; gap: 10px; }
-.quiz-score { text-align: center; padding: 30px; background: var(--bg-main); border-radius: 16px; border: 2px solid var(--primary); }
-.quiz-score h3 { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
-.quiz-score p { color: var(--text-light); }
-.score-emoji { font-size: 4rem; margin-bottom: 15px; }
+/* 10 Soruluk Test (Quiz) Gelişmiş Tasarım */
+.quiz-container { background: var(--bg-main); padding: 30px; border-radius: 16px; border: 1px solid var(--border-color); }
+.quiz-progress { height: 10px; background: var(--bg-secondary); border-radius: 5px; overflow: hidden; margin-bottom: 10px; border: 1px solid var(--border-color); }
+.quiz-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 5px; }
+.quiz-question { font-size: 1.3rem; font-weight: 700; margin-bottom: 25px; color: var(--text-main); line-height: 1.5; padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--primary); box-shadow: var(--card-shadow); }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+.quiz-option { padding: 16px; background: var(--bg-secondary); border: 2px solid var(--border-color); border-radius: 12px; cursor: pointer; font-weight: 600; text-align: left; transition: all 0.2s; color: var(--text-main); font-size: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+.quiz-option:hover { border-color: var(--primary); background: rgba(37,99,235,0.05); transform: translateY(-2px); }
+.quiz-option.correct { background: rgba(16,185,129,0.1); border-color: #10b981; color: #047857; }
+.dark-theme .quiz-option.correct { color: #34d399; }
+.quiz-option.wrong { background: rgba(239,68,68,0.1); border-color: #ef4444; color: #b91c1c; }
+.dark-theme .quiz-option.wrong { color: #f87171; }
+.quiz-option:disabled { cursor: not-allowed; transform: none; }
+.quiz-feedback { min-height: 35px; font-size: 1.1rem; margin-bottom: 15px; font-weight: 700; text-align: center; }
+.quiz-score { text-align: center; padding: 40px; background: var(--bg-secondary); border-radius: 16px; border: 2px solid var(--primary); box-shadow: var(--card-shadow); }
+.quiz-score h3 { font-size: 2.2rem; color: var(--primary); margin-bottom: 15px; }
+.quiz-score p { color: var(--text-light); font-size: 1.1rem; }
+.score-emoji { font-size: 5rem; margin-bottom: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 
 /* SSS */
 .faq-container { display: flex; flex-direction: column; gap: 15px; }
@@ -403,46 +426,31 @@ footer { text-align: center; padding: 2rem; background: var(--bg-secondary); col
     .bio-grid.reverse { grid-template-columns: 1fr; }
     .bio-img { margin: 0 auto; max-width: 400px; height: auto; }
     .spiral-section { grid-template-columns: 1fr; }
-    .music-panel { grid-template-columns: 1fr; }
 }
 
 @media(max-width: 768px) {
-    /* Genel Yapı ve Paddingler */
     html { cursor: auto; }
     .cursor-dot, .cursor-outline { display: none; }
     section { padding: 4rem 5%; }
     .content-box { padding: 1.5rem; overflow: hidden;}
     
-    /* Hero */
     .hero h1 { font-size: 2.5rem; }
     .hero p { font-size: 1rem; }
     .hero-buttons { flex-direction: column; width: 100%; }
     .hero-buttons .btn { width: 100%; }
     
-    /* Navigasyon / Hamburger */
     .hamburger { display: flex; }
-    nav ul {
-        display: none; width: 100%; flex-direction: column;
-        background: var(--nav-bg); padding: 10px 0; gap: 5px; order: 3;
-    }
+    nav ul { display: none; width: 100%; flex-direction: column; background: var(--nav-bg); padding: 10px 0; gap: 5px; order: 3; }
     nav ul.open { display: flex; }
     nav ul li a { padding: 10px 20px; display: block; }
     
-    /* Quiz & Saat */
-    .quiz-options { grid-template-columns: 1fr; }
-    .clock-digits { font-size: 1.8rem; min-width: 50px; padding: 10px; }
-    .fibo-clock-container { flex-direction: column; text-align: center; padding: 1.5rem; }
-    .clock-panel { flex-wrap: wrap; justify-content: center; }
+    .floating-clock { transform: scale(0.5); left: 10px; bottom: 10px; }
     
-    /* Diğer Kontroller */
     .complexity-controls input[type=range] { width: 100%; }
     .nature-gallery { grid-template-columns: repeat(2, 1fr); }
     
-    /* Kod Pencereleri Taşmasını Önleme */
     .mac-window pre { font-size: 0.8rem; padding: 15px; white-space: pre-wrap; word-break: break-all; }
-    .hidden-code pre { font-size: 0.8rem; white-space: pre-wrap; word-break: break-all; }
     
-    /* Whiteboard (Sınıf Tahtası) Taşmasını Önleme */
     .whiteboard-container { padding: 15px; font-size: 1rem; }
     .whiteboard-text { font-size: 1rem; }
     .wb-title { font-size: 1.1rem; }
@@ -450,16 +458,14 @@ footer { text-align: center; padding: 2rem; background: var(--bg-secondary); col
     .fs-array-visual { flex-wrap: wrap; }
     .fs-box { font-size: 0.9rem; padding: 8px 12px; }
     
-    /* Pascal Üçgeni Taşması */
     .pascal-pyramid { padding: 10px; }
     .pascal-block { width: 30px; height: 30px; font-size: 0.75rem; }
     
-    /* Inputlar ve Butonlar */
     .input-group { flex-direction: column; padding: 0; }
     .input-group button, .input-group select { width: 100%; }
-    .result-box { margin: 15px 0 0 0;}
-    .toggle-code-btn { width: 100%; margin: 20px 0 0 0; }
-    .hidden-code { margin: 15px 0 25px 0; }
+    
+    .quiz-options { grid-template-columns: 1fr; }
+    
     .acc-inner { padding: 0 15px 15px 15px; }
     .acc-desc { padding: 0; }
 }
