@@ -166,7 +166,7 @@ section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 1.5rem; font-
 .bio-img { width: 100%; border-radius: 16px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color);}
 
 /* -------------------------------------------
-   YENİ: Gelişmiş Şık Formül Stilleri
+   Gelişmiş Şık Formül Stilleri
 ------------------------------------------- */
 .formula-box {
     background: var(--bg-main);
@@ -295,7 +295,7 @@ section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 1.5rem; font-
 }
 .mac-window code, .hidden-code code { font-family: 'Fira Code', monospace; font-size: 0.95rem; color: var(--code-text); line-height: 1.5;}
 
-/* YENİ: Yorum Satırı Renklendirmesi */
+/* Yorum Satırı Renklendirmesi */
 .code-comment { color: #10b981; font-style: italic; }
 .dark-theme .code-comment { color: #34d399; }
 

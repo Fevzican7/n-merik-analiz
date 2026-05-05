@@ -39,7 +39,7 @@
     <nav>
         <div class="logo-container">
             <div class="logo">Divina Proportione</div>
-            <div class="logo-subtitle">İLAHİ ORAN</div>
+            <div class="logo-subtitle">Altın Oran</div>
         </div>
         <button class="hamburger" id="hamburgerBtn" aria-label="Menü">
             <span></span><span></span><span></span>
@@ -243,8 +243,32 @@ public class FibonacciDizisi {
         <div class="content-box wide-box reveal">
             <div class="java-split">
                 
-                <!-- Sol Taraf: Simülatör -->
+                <!-- Sol Taraf: Beyaz Tahta ve Simülatör -->
                 <div class="split-left">
+                    <div class="whiteboard-container" style="margin-bottom: 20px;">
+                        <div class="whiteboard-text">
+                            <div class="wb-title">Soru: Sıralı bir dizide x sayısını arayan Fibonacci Algoritmasını yazınız.</div>
+                            <ol class="wb-list">
+                                <li>BAŞLA</li>
+                                <li>OKU arananDeger <span class="wb-note">// Kullanıcıdan arananı al</span></li>
+                                <li>fibM2 = 0, fibM1 = 1, fibM = 1;</li>
+                                <li>Döngü (fibM < n) { fibM2=fibM1; fibM1=fibM; fibM=fibM2+fibM1; } <span class="wb-note">// Sınırı bul</span></li>
+                                <li>baslangic = -1;</li>
+                                <li>Döngü (fibM > 1)<br>
+                                    {<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;i = min(baslangic + fibM2, n - 1);<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#ef4444;">EĞER dizi[i] < arananDeger İSE</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ fibM=fibM1; fibM1=fibM2; fibM2=fibM-fibM1; baslangic=i; }<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#ef4444;">EĞER dizi[i] > arananDeger İSE</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ fibM=fibM2; fibM1=fibM1-fibM2; fibM2=fibM-fibM1; }<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#10b981;">DEĞİLSE</strong> { YAZ "Bulundu" VE BİTİR }<br>
+                                    }
+                                </li>
+                                <li>YAZ "Bulunamadı" VE BİTİR</li>
+                            </ol>
+                        </div>
+                    </div>
+
                     <div class="sim-panel">
                         <div class="fs-demo-panel" style="margin-top:0;">
                             <div class="sim-header" style="margin-top:0;">🔍 Canlı Arama Simülatörü</div>
@@ -378,8 +402,32 @@ public static int fibonacciArama(int[] dizi, int arananDeger) {
 
             <div class="java-split" style="margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 3rem;">
                 
-                <!-- Sol Taraf: Simülatör -->
+                <!-- Sol Taraf: Beyaz Tahta ve Simülatör -->
                 <div class="split-left">
+                    <div class="whiteboard-container" style="margin-bottom: 20px;">
+                        <div class="whiteboard-text">
+                            <div class="wb-title">Soru: Pascal üçgeninin ilk N satırını çizen algoritmayı yazınız.</div>
+                            <ol class="wb-list">
+                                <li>BAŞLA</li>
+                                <li>OKU satirSayisi <span class="wb-note">// Kullanıcıdan satır sayısını al</span></li>
+                                <li><strong style="color:#ef4444;">EĞER satirSayisi < 1 VEYA satirSayisi > 15 İSE</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;YAZ <span style="color:#ef4444;">"Hata: 1-15 arası girin"</span> VE BİTİR</li>
+                                <li>Döngü (i = 0; i < satirSayisi; i++)<br>
+                                    {<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Boşlukları Yazdır; <span class="wb-note">// Piramit hizalaması için</span><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;deger = 1;<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Döngü (j = 0; j <= i; j++)<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YAZ deger;<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deger = deger * (i - j) / (j + 1); <span class="wb-note">// Formül</span><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;YAZ YeniSatir;<br>
+                                    }
+                                </li>
+                                <li>BİTİR</li>
+                            </ol>
+                        </div>
+                    </div>
+
                     <div class="sim-panel">
                         <div style="margin-bottom: 20px;">
                             <h4 style="color: var(--primary); margin-bottom: 10px; font-size:1.3rem;">Pascal Piramidi Çizici</h4>
