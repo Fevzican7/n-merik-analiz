@@ -200,9 +200,9 @@ public class FibonacciDizisi {
         System.out.print("Kaç terim istiyorsunuz? ");
         int n = tarayici.nextInt();
 
-        <span class="code-comment">// 1. Hata Kontrolü (Negatif veya 0 girilemez)</span>
-        if (n <= 0) {
-            System.out.println("Lütfen pozitif bir sayı girin.");
+        <span class="code-comment">// 1. Hata Kontrolü (1 ile 50 arasında olmalı)</span>
+        if (n < 1 || n > 50) {
+            System.out.println("Hata: 1-50 arası girin");
             return;
         }
 
