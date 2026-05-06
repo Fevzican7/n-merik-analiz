@@ -303,7 +303,7 @@ public static int fibonacciArama(int[] dizi, int arananDeger) {
     int fibM = fibM2 + fibM1; <span class="code-comment">// m'nci Fibonacci sayısı</span>
 
     <span class="code-comment">// 2. Dizinin boyutundan büyük veya eşit olan en küçük Fibonacci sayısını buluyoruz</span>
-    while (fibM < n) {
+    while (fibM <= n) {
         fibM2 = fibM1;
         fibM1 = fibM;
         fibM = fibM2 + fibM1;
